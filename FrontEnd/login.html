@@ -11,12 +11,14 @@
       rel="stylesheet"
     />
     <meta name="description" content="" />
-    <script src="./assets/JS/script.js"></script>
+    <script src="./assets/JS/login.js"></script>
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
     <header>
-      <a href="index.html"><h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1></a>
+      <a href="index.html"
+        ><h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1></a
+      >
       <nav>
         <ul>
           <li>projets</li>
@@ -27,39 +29,36 @@
       </nav>
     </header>
 
-    <main>
+    <main id="container-login">
+      <h2>Log In</h2>
 
-        <div id="container-login">
-            <h2>Log In</h2>
+      <form id="login-form">
+        <label for="email" class="container-login-input"> E-mail </label>
+        <input type="text" id="email" name="email" autocomplete="email" />
 
-            <div class="container-login-input">
-                <label for="email">E-mail</label>
-                <input type="text" id="email" name="email">
-            </div>
-            
-            <div class="container-login-input">
-                <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password"
-                       minlength="8" required>
-            </div>
-            
-            <input class ="btn-filter" type="submit" value="Se Connecter">
+        <label for="password" class="container-login-input">
+          Mot de passe
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          autocomplete="current-password"
+        />
 
-            <p id="lost-password">Mot de passe oublié</p>
+        <input class="btn-filter" type="submit" value="Se Connecter" />
+      </form>
 
+      <p id="error-message" hidden>
+        Erreur dans l'identifiant ou le mot de passe
+      </p>
 
-        </div>
-
-
-
-
+      <p id="lost-password">Mot de passe oublié</p>
     </main>
 
-
-
-
     <footer id="footer-login">
-        <p><a href="#">Mentions légales</a></p>
+      <p><a href="#">Mentions légales</a></p>
     </footer>
-    </body>
-    </html>
+  </body>
+</html>

@@ -103,3 +103,21 @@ document.addEventListener('DOMContentLoaded', function() {
     containerElement.appendChild(figureElement);
   }
 });
+
+/* Code for modal  */ 
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Vérifiez si le token existe dans le localStorage
+  const token = localStorage.getItem("token");
+
+  // Si le token existe, affichez la modal
+  if (token) {
+    const modal = document.getElementById("modal");
+    
+    modal.style.display = "block";
+
+    // Supprimez le token du localStorage pour qu'il ne soit pas réaffiché lors de la prochaine visite
+    localStorage.removeItem("token");
+  }
+});
+
