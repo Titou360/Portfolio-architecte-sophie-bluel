@@ -195,6 +195,11 @@ footer nav ul {
 	gap : 10px;
 
 }
+
+.btn {
+	border-radius : 60px; 
+}
+
 .btn-filter {
 	border: 1px solid #1D6154;
 	color : #1D6154;
@@ -204,16 +209,30 @@ footer nav ul {
 	font-style : normal;
 	font-weight: 700;
 	line-height: normal;
-	border-radius : 60px; 
 	background-color : white;
 	padding: 9px 15px;
 	cursor: pointer;
-	
 }
 
 .btn-filter:hover {
 	background-color : #1D6154;
 	color: white;
+}
+
+.btn-modal {
+	background-color: #FFF;
+	max-width: 216px;
+	height: 38px;
+	color: #000;
+	text-align: center;
+	font-family: Work sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	padding: 11px;
+
+
 }
 
 a {
@@ -317,7 +336,7 @@ lable[for="email"] {
 /* CSS for modal */ 
 
 .modal {
-	display: none;
+	/*display: none;*/
 	position: fixed;
 	z-index: 1;
 	left: 0;
@@ -326,29 +345,29 @@ lable[for="email"] {
 	height: 100%;
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.1);
+
   }
   
-  .modal-content {
-	background-color: transparent;
-	margin: 10% auto;
-	padding: 20px;
-	border: 1px solid #888;
+  .modal-edition-mod {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap : 21px;
+	background-color: #000;
+	padding: 20px auto;
 	width: 100%;
-	height: 100vh;
+	height: 59px;
+	
+
   }
-  
-  .close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
+
+  .edition-mod {
+	color : #FFF;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
   }
-  
-  .close:hover,
-  .close:focus {
-	color: black;
-	text-decoration: none;
-	cursor: pointer;
-  }
-  

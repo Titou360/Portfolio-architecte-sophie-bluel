@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       categories.forEach(category => {
         const button = document.createElement('button');
-        const buttonClass = 'btn-filter';
+        const buttonClass = button.classList.add('btn', 'btn-filter');
         button.classList.add(buttonClass);
         button.textContent = category;
         filtersContainer.appendChild(button);
