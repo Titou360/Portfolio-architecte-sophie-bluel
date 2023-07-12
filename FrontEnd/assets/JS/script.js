@@ -9,37 +9,61 @@ document.addEventListener('DOMContentLoaded', function() {
   `;
   portfolio.innerHTML = html;
 
-  fetch("http://localhost:5678/api/works")
-    .then(response => response.json())
+  //* Créer une fonction pour récupérer les données de l'API sur /works *//
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:5678/api/works");
+      if (!response.ok) {
+        throw new Error('Erreur lors de la récupération des données de l\'API');
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  //* Créer une fonction pour générer les différentes figures de la galerie //
+  const genererFigure = (projet) => {
+    let figureElement = document.createElement('figure');
+    let categoryClass = 'filter-' + encodeURIComponent(projet.category.name.toLowerCase().replace(' ', '-'));
+    figureElement.classList.add(categoryClass);
+    let imgElement = document.createElement('img');
+    imgElement.src = projet.imageUrl;
+    imgElement.alt = projet.title;
+    let figcaptionElement = document.createElement('figcaption');
+    figcaptionElement.textContent = projet.title;
+    figureElement.appendChild(imgElement);
+    figureElement.appendChild(figcaptionElement);
+    let containerElement = document.querySelector('.gallery');
+    containerElement.appendChild(figureElement);
+  };
+
+  fetchData()
     .then(data => {
-      // Je génère et remplis les figures pour chaque projet
       data.forEach(function(projet) {
         genererFigure(projet);
       });
 
-      // Récupérer toutes les catégories uniques
       const categories = new Set();
       categories.add("Tous");
       data.forEach(projet => {
         categories.add(projet.category.name);
       });
 
-      // Sélectionner le conteneur des filtres
       const filtersContainer = document.querySelector('.filters');
-
-      // Créer un bouton pour chaque catégorie
       const allFigures = document.querySelectorAll('.gallery figure');
       const filterButtons = [];
 
       categories.forEach(category => {
         const button = document.createElement('button');
-        const buttonClass = button.classList.add('btn', 'btn-filter');
+        const buttonClass = 'btn-filter';
         button.classList.add(buttonClass);
         button.textContent = category;
         filtersContainer.appendChild(button);
         filterButtons.push(button);
 
-        // Ajouter une classe spécifique pour le bouton "Tous"
         if (category === "Tous") {
           button.classList.add('filter-tous');
         } else {
@@ -48,25 +72,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
 
-      // Gestionnaire d'événement pour les boutons de filtre
       filterButtons.forEach(button => {
         button.addEventListener('click', function() {
-          // Supprimer la classe "data-active" de tous les boutons
           filterButtons.forEach(btn => {
             btn.classList.remove('data-active');
           });
 
-          // Ajouter la classe "data-active" au bouton cliqué
           button.classList.add('data-active');
-
-          // Récupérer la classe du bouton cliqué (correspond à la catégorie)
           const categoryClass = button.classList[1];
 
-          // Afficher ou masquer les figures en fonction de la catégorie
           allFigures.forEach(figure => {
             const figureCategories = Array.from(figure.classList).filter(className => className.startsWith('filter-'));
             const shouldDisplay = categoryClass === 'filter-tous' || figureCategories.includes(categoryClass);
-
             figure.style.display = shouldDisplay ? 'block' : 'none';
           });
         });
@@ -75,49 +92,79 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch((error) => {
       console.log("Une erreur s'est produite lors de la récupération des données :", error);
     });
-
-  // Je crée la fonction
-  function genererFigure(projet) {
-    // Je crée un nouvel élément <figure>
-    let figureElement = document.createElement('figure');
-
-    // Ajouter une classe à la figure en fonction de la catégorie
-    let categoryClass = 'filter-' + encodeURIComponent(projet.category.name.toLowerCase().replace(' ', '-'));
-    figureElement.classList.add(categoryClass);
-
-    // Je crée un nouvel élément <img> avec les attributs src et alt
-    let imgElement = document.createElement('img');
-    imgElement.src = projet.imageUrl;
-    imgElement.alt = projet.title;
-
-    // Je crée un nouvel élément <figcaption> avec le titre du projet
-    let figcaptionElement = document.createElement('figcaption');
-    figcaptionElement.textContent = projet.title;
-
-    // J'ajoute les éléments à l'élément <figure>
-    figureElement.appendChild(imgElement);
-    figureElement.appendChild(figcaptionElement);
-
-    // J'ajoute enfin l'élément <figure> à la class .gallery
-    let containerElement = document.querySelector('.gallery');
-    containerElement.appendChild(figureElement);
-  }
 });
 
-/* Code for modal  */ 
+document.addEventListener('DOMContentLoaded', function() {
+  const loginForm = document.getElementById('login-form');
+  const errorMessage = document.getElementById('error-message');
+  const loginLink = document.getElementById('nav-login');
 
-document.addEventListener("DOMContentLoaded", function() {
-  // Vérifiez si le token existe dans le localStorage
-  const token = localStorage.getItem("token");
+  // Fonction pour gérer la soumission du formulaire de connexion
+  async function handleLoginFormSubmit(event) {
+    event.preventDefault();
 
-  // Si le token existe, affichez la modal
-  if (token) {
-    const modal = document.getElementById("modal");
-    
-    modal.style.display = "block";
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-    // Supprimez le token du localStorage pour qu'il ne soit pas réaffiché lors de la prochaine visite
-    localStorage.removeItem("token");
+    const loginData = {
+      email: email,
+      password: password
+    };
+
+    try {
+      const response = await fetch('http://localhost:5678/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la connexion');
+      }
+
+      const data = await response.json();
+      const token = data.token;
+
+      // Enregistrer le token dans le localStorage
+      localStorage.setItem('token', token);
+
+      // Rediriger vers index.html
+      window.location.href = 'index.html';
+    } catch (error) {
+      console.error('Erreur lors de la connexion:', error);
+      errorMessage.removeAttribute('hidden');
+    }
+  }
+
+  // Gérer la soumission du formulaire de connexion
+  if (loginForm) {
+    loginForm.addEventListener('submit', handleLoginFormSubmit);
+  }
+
+  // Gérer le clic sur le lien "Logout"
+  loginLink.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    // Effacer le token du localStorage
+    localStorage.removeItem('token');
+
+    // Rediriger vers login.html
+    window.location.href = 'login.html';
+  });
+
+  // Vérifier si l'utilisateur est connecté au chargement de la page
+  const token = localStorage.getItem('token');
+  const isLoggedIn = token !== null;
+
+  // Mettre à jour l'affichage du lien "Logout"
+  if (isLoggedIn) {
+    loginLink.style.display = 'inline';
+    loginLink.textContent = 'Logout';
+  } else {
+    loginLink.style.display = 'inline';
+    loginLink.textContent = 'Login';
   }
 });
-
