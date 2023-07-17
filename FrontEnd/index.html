@@ -19,22 +19,19 @@
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
-    <!--<div id="modal" class="modal">
-      <div class="modal-edition-mod">
-        <p class="edition-mod">
-          <i class="fa-regular fa-pen-to-square"></i>
+      <div class="edition-mod">
+        <p class="btn-modify">
           Mode édition
         </p>
-        <button class="btn-modal">publier les changements</button>
+        <button class="btn-edition">publier les changements</button>
       </div>
-    </div>-->
 
     <header>
-      <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
+      <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
         <ul>
-          <li>projets</li>
-          <li>contact</li>
+          <li><a href="#portfolio">projets</a></li>
+          <li><a href="#contact">contact</a></li>
           <li><a href="./login.html">login</a></li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
@@ -42,9 +39,15 @@
     </header>
     <main>
       <section id="introduction">
+
         <figure>
-          <img src="./assets/images/sophie-bluel.png" alt="" />
+          <img src="./assets/images/sophie-bluel.png" alt="Photo de Sophie Bluel" />
+          <!--// à rajouter en JS-->
+            <figcaption>
+              <p class="btn-modify">modifier</p>
+            </figcaption>
         </figure>
+
         <article>
           <h2>Designer d'espace</h2>
           <p>
@@ -64,7 +67,11 @@
           </p>
         </article>
       </section>
-      <section id="portfolio"></section>
+      <section id="portfolio">
+
+          </div>
+        </aside>
+      </section>
       <section id="contact">
         <h2>Contact</h2>
         <p>Vous avez un projet ? Discutons-en !</p>

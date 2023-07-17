@@ -3,7 +3,10 @@ document.addEventListener('DOMContentLoaded', function() {
   let portfolio = document.querySelector('#portfolio');
 
   let html = `
-    <h2>${titleProjects}</h2>
+    <div class="row">
+      <h2 id="projects">${titleProjects}</h2>
+      <button id="btntomodalprojects" class="btn-modify">modifier</button>
+    </div>
     <div class="filters"></div>
     <div class="gallery"></div>
   `;
@@ -92,79 +95,54 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch((error) => {
       console.log("Une erreur s'est produite lors de la récupération des données :", error);
     });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-  const loginForm = document.getElementById('login-form');
-  const errorMessage = document.getElementById('error-message');
-  const loginLink = document.getElementById('nav-login');
+  /** Modal **/
 
-  // Fonction pour gérer la soumission du formulaire de connexion
-  async function handleLoginFormSubmit(event) {
-    event.preventDefault();
+  function createObstructor() {
+    const obstructor = document.createElement('div');
+    obstructor.classList.add('obstructor');
+    const parent = document.querySelector('main');
+    parent.appendChild(obstructor);
+  }
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+  function createModale() {
+    const modale = document.createElement('div');
+    modale.classList.add('modale');
+    modale.innerHTML = `
+      <button class="close-modale">&#x1F5D9;</button>
+      <h2 class="title-modal-projects">Galerie photo</h2>
+      <div class="modal-option">
+        <input class="btn-add-modal" type="submit" value="Ajouter une photo">
+        <p>Supprimer la galerie</p>
+      </div>
+    `;
+    const parent = document.querySelector('main');
+    parent.appendChild(modale);
 
-    const loginData = {
-      email: email,
-      password: password
-    };
-
-    try {
-      const response = await fetch('http://localhost:5678/api/users/login', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginData)
+    modale
+      .querySelector('button.close-modale')
+      .addEventListener('click', () => {
+        destroyObstructor();
+        destroyModale();
       });
-
-      if (!response.ok) {
-        throw new Error('Erreur lors de la connexion');
-      }
-
-      const data = await response.json();
-      const token = data.token;
-
-      // Enregistrer le token dans le localStorage
-      localStorage.setItem('token', token);
-
-      // Rediriger vers index.html
-      window.location.href = 'index.html';
-    } catch (error) {
-      console.error('Erreur lors de la connexion:', error);
-      errorMessage.removeAttribute('hidden');
-    }
   }
 
-  // Gérer la soumission du formulaire de connexion
-  if (loginForm) {
-    loginForm.addEventListener('submit', handleLoginFormSubmit);
+  function destroyModale() {
+    const modale = document.querySelector('div.modale');
+    modale.remove();
   }
 
-  // Gérer le clic sur le lien "Logout"
-  loginLink.addEventListener('click', function(event) {
-    event.preventDefault();
-
-    // Effacer le token du localStorage
-    localStorage.removeItem('token');
-
-    // Rediriger vers login.html
-    window.location.href = 'login.html';
-  });
-
-  // Vérifier si l'utilisateur est connecté au chargement de la page
-  const token = localStorage.getItem('token');
-  const isLoggedIn = token !== null;
-
-  // Mettre à jour l'affichage du lien "Logout"
-  if (isLoggedIn) {
-    loginLink.style.display = 'inline';
-    loginLink.textContent = 'Logout';
-  } else {
-    loginLink.style.display = 'inline';
-    loginLink.textContent = 'Login';
+  function destroyObstructor() {
+    const obstructor = document.querySelector('div.obstructor');
+    obstructor.remove();
   }
+
+  document
+    .querySelector('#btntomodalprojects')
+    .addEventListener('click', () => {
+      createObstructor();
+      createModale();
+    });
 });
+
+

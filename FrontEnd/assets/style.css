@@ -97,7 +97,7 @@ nav li {
 	font-size: 1.2em;
 }
 
-li:hover, a:hover, #nav-login:hover {
+li:hover, #nav-login:hover {
 	color: #B1663C;
 }
 #introduction {
@@ -221,24 +221,18 @@ footer nav ul {
 	color: white;
 }
 
-.btn-modal {
-	background-color: #FFF;
-	max-width: 216px;
-	height: 38px;
-	color: #000;
-	text-align: center;
-	font-family: Work sans;
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 500;
-	line-height: normal;
-	padding: 11px;
-	border-radius : 60px; 
-}
 
 a {
 	text-decoration: none;
 	cursor: pointer;
+}
+
+a:visited {
+	color : #000;
+}
+
+a:hover {
+	color: #B1663C;
 }
 
 #nav-login {
@@ -334,22 +328,10 @@ lable[for="email"] {
 	line-height: normal;
 }
 
-/* CSS for modal */ 
+/* CSS for Edition mode */ 
 
-.modal {
-	/*display: none;*/
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.1);
-
-  }
-  
-  .modal-edition-mod {
+  .edition-mod {
+	position : absolute;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -359,11 +341,9 @@ lable[for="email"] {
 	padding: 20px auto;
 	width: 100%;
 	height: 59px;
-	
-
-  }
-
-  .edition-mod {
+	top: 0;
+	right: 0;
+	left: 0;
 	color : #FFF;
 	text-align: center;
 	font-family: Work Sans;
@@ -372,3 +352,120 @@ lable[for="email"] {
 	font-weight: 400;
 	line-height: normal;
   }
+
+  .btn-edition {
+	background-color: #FFF;
+	max-width: 216px;
+	height: 38px;
+	color: #000;
+	text-align: center;
+	font-family: Work sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	padding: 11px;
+	border-radius : 60px; 
+}
+
+.btn-modify {
+	/*background: transparent;
+	border: none;*/
+	text-transform: lowercase;
+}
+
+.btn-modify:before{ 
+	content: "\f044";
+	font-family: "Font Awesome 5 Free" ;
+	font-size: 15px;
+	font-weight: 200;
+	padding-right: 10px;
+	width: 15px;
+	height: 15px;
+}
+
+
+  .row {
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+	gap : 31px;
+  }
+
+  /* Modal */
+
+  .modale {
+	position: fixed;
+	background-color: white;
+	padding: 10px;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: calc(50vw - 200px);
+  }
+
+  .modale h2 {
+	margin-bottom: 46px;
+  }
+  
+  .obstructor {
+	position: fixed;
+	inset: 0;
+	background-color: #00000066;
+  }
+
+  .title-modal-projects {
+	color: #000;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 26px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	margin-top: 60px;
+  }
+
+  .close-modale {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: transparent;
+	border: none;
+	width: 24px;
+	height: 24px;
+	flex-shrink: 0;
+	padding: 6px;
+	right: 0;
+	margin-right: 30px;
+	margin-top: 26px;
+
+  }
+
+.modal-option {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	margin: auto;
+	width: 60%;
+	align-items: center;
+	border-top: 1px solid #B3B3B3;
+}
+
+.btn-add-modal {
+	display: flex;
+	justify-content: center;
+	padding: 10px 49px 9px 49px;
+	margin-top: 38px;
+}
+
+.btn-add-modal + p {
+	color: #D65353;
+	text-align: center;
+	font-family: Syne;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	margin-bottom: 48px;
+}
