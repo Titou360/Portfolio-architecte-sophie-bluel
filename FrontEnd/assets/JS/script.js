@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (token) {
     editionMod.style.display = 'flex';
     loginLogout.textContent = 'logout';
+
   }
 
   //  ---------------------------------------------------------
@@ -24,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.replace('./login.html');
     } else {
       sessionStorage.clear();
+      localStorage.removeItem('token');
+      loginLogout.textContent = 'login';
       window.location.replace('./index.html');
     }
   }
