@@ -1,5 +1,34 @@
 document.addEventListener('DOMContentLoaded', function() {
-  let titleProjects = "Mes Projets";
+  const token = localStorage.getItem('token');
+  console.log('Token:', token);
+  const editionMod = document.querySelector('.edition-mod');
+  const loginLogout = document.getElementById('nav-login');
+
+  if (token) {
+    editionMod.style.display = 'flex';
+    loginLogout.textContent = 'logout';
+  }
+
+  //  ---------------------------------------------------------
+  //  | Management of the action of the "login/logout" button |
+  //  ---------------------------------------------------------
+
+  // add event listening on the  "login/logout" button
+  loginLogout.addEventListener('click', function () {
+    logInLogOut();
+  });
+
+  // redirect function to a page according to the token
+  function logInLogOut() {
+    if (token === null) {
+      window.location.replace('./login.html');
+    } else {
+      sessionStorage.clear();
+      window.location.replace('./index.html');
+    }
+  }
+
+  let titleProjects = 'Mes Projets';
   let portfolio = document.querySelector('#portfolio');
 
   let html = `
@@ -113,12 +142,12 @@ document.addEventListener('DOMContentLoaded', function() {
       <h2 class="title-modal-projects">Galerie photo</h2>
       <div class="modal-option">
         <input class="btn-add-modal" type="submit" value="Ajouter une photo">
-        <p>Supprimer la galerie</p>
+        <p class="suppr-gallery">Supprimer la galerie</p>
       </div>
     `;
+
     const parent = document.querySelector('main');
     parent.appendChild(modale);
-
     modale
       .querySelector('button.close-modale')
       .addEventListener('click', () => {
@@ -144,5 +173,3 @@ document.addEventListener('DOMContentLoaded', function() {
       createModale();
     });
 });
-
-

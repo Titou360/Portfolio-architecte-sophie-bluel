@@ -1,43 +1,66 @@
-document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("login-form").addEventListener("submit", function(event) {
-  event.preventDefault(); 
-    
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-    
-      const requestBody = {
-        email: email,
-        password: password
-};
-    
-fetch("http://localhost:5678/api/users/login", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Accept": "application/json" // Contrôle de l'en-tête Accept
-  },
-    body: JSON.stringify(requestBody)
-})
+document.addEventListener('DOMContentLoaded', function() {
+  const loginForm = document.getElementById('login-form');
+  const errorMessage = document.getElementById('error-message');
+  const loginLink = document.querySelector('#nav-login');
 
-  .then(response => {
-     if (response.ok && response.headers.get("content-type").includes("application/json")) {
-     return response.json();
-    } else {
-            throw new Error("Identifiant ou mot de passe incorrect");
-          }
-})
-  .then(data => {
-          // Le token de connexion a été obtenu avec succès
-          const token = data.token;
+  // Vérifier si le token est présent dans le localStorage
+  const token = localStorage.getItem('token');
 
-          // Effectuez les actions nécessaires en cas de connexion réussie
+  if (token) {
+    // Changer le texte en "logout" si le token est présent
+    loginLink.textContent = 'logout';
+  }
 
-          // Par exemple, stockez le token dans le localStorage
-          localStorage.setItem("token", token);
+  loginForm.addEventListener('submit', async function(event) {
+    event.preventDefault();
 
-          // Redirigez vers la page "index.html"
-          window.location.href = "index.html";
-    })
-        
-      })
-  })        
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    try {
+      const response = await fetch('http://localhost:5678/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la connexion');
+      }
+
+      const data = await response.json();
+      const token = data.token;
+
+      // Stocker le token dans le localStorage
+      localStorage.setItem('token', token);
+      console.log('Token:', token);
+
+      // Changer le texte du lien en "logout" après la connexion réussie
+      loginLink.textContent = 'logout';
+
+      // Rediriger vers une autre page ou effectuer d'autres actions
+      window.location.href = 'index.html';
+    } catch (error) {
+      console.error(error);
+      errorMessage.removeAttribute('hidden');
+    }
+  });
+
+  // Gérer la déconnexion lorsque l'utilisateur clique sur "logout"
+  loginLink.addEventListener('click', function() {
+    if (token) {
+      // Supprimer le token du localStorage
+      localStorage.removeItem('token');
+    }
+    // Rediriger vers la page de login
+    window.location.href = 'login.html';
+  });
+});

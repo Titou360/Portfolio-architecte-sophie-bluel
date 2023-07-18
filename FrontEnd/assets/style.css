@@ -331,8 +331,7 @@ lable[for="email"] {
 /* CSS for Edition mode */ 
 
   .edition-mod {
-	position : absolute;
-	display: flex;
+	display: none;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
@@ -369,9 +368,10 @@ lable[for="email"] {
 }
 
 .btn-modify {
-	/*background: transparent;
-	border: none;*/
+	background: transparent;
+	border: none;
 	text-transform: lowercase;
+	cursor: pointer;
 }
 
 .btn-modify:before{ 
@@ -430,6 +430,7 @@ lable[for="email"] {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
 	background: transparent;
 	border: none;
 	width: 24px;
@@ -457,9 +458,10 @@ lable[for="email"] {
 	justify-content: center;
 	padding: 10px 49px 9px 49px;
 	margin-top: 38px;
+	cursor: pointer;
 }
 
-.btn-add-modal + p {
+.btn-add-modal p {
 	color: #D65353;
 	text-align: center;
 	font-family: Syne;
@@ -468,4 +470,14 @@ lable[for="email"] {
 	font-weight: 400;
 	line-height: normal;
 	margin-bottom: 48px;
+}
+
+.suppr-gallery {
+	color: #D65353;
+	text-align: center;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	cursor: pointer;
 }

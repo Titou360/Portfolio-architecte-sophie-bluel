@@ -11,10 +11,17 @@
       rel="stylesheet"
     />
     <meta name="description" content="" />
-    <script src="./assets/JS/script.js"></script>
+    <script src="./assets/JS/login.js"></script>
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
+    <div class="edition-mod">
+      <p class="btn-modify">
+        Mode édition
+      </p>
+      <button class="btn-edition">publier les changements</button>
+    </div>
+
     <header>
       <a href="index.html"
         ><h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a
@@ -32,7 +39,7 @@
     <main id="container-login">
       <h2>Log In</h2>
 
-      <form id="login-form">
+      <form id="login-form" action="#" method="post">
         <label for="email" class="container-login-input"> E-mail </label>
         <input type="text" id="email" name="email" autocomplete="email" />
 
@@ -47,7 +54,7 @@
           autocomplete="current-password"
         />
 
-        <input class="btn-filter" type="submit" value="Se Connecter" />
+        <input class="btn-filter" type="submit" id="submit-button" value="Se Connecter" />
       </form>
 
       <p id="error-message" hidden>
