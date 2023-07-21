@@ -3,10 +3,14 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('Token:', token);
   const editionMod = document.querySelector('.edition-mod');
   const loginLogout = document.getElementById('nav-login');
+  const bodyElement = document.body;
+  
 
   if (token) {
     editionMod.style.display = 'flex';
+    editionMod.style.position ="fixed";
     loginLogout.textContent = 'logout';
+    bodyElement.style.paddingTop = "38px";
 
   }
 
