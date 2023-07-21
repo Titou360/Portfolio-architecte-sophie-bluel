@@ -398,12 +398,15 @@ lable[for="email"] {
 
   .modale {
 	position: fixed;
-	background-color: white;
+	background-color: #FFF;
 	padding: 10px;
-	top: 50%;
+	top: 10%;
 	left: 50%;
 	transform: translateX(-50%);
-	width: calc(50vw - 200px);
+	width: 631px;
+	height: 731px;
+	border-radius: 10px;
+
   }
 
   .modale h2 {
@@ -482,4 +485,14 @@ lable[for="email"] {
 	font-weight: 400;
 	line-height: normal;
 	cursor: pointer;
+}
+
+.gallery-modal {
+	display: flex;
+	background-color: red;
+	color: white;
+	width: 100px;
+	height: 100px;
+	justify-content: center;
+	align-items: center;
 }

@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
   //  ---------------------------------------------------------
-  //  | Management for the Projects Modal                     |
+  //  | Management for the "Projects" Modal                   |
   //  ---------------------------------------------------------
 
   function createObstructor() {
@@ -152,11 +152,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const modale = document.createElement('div');
     modale.classList.add('modale');
     modale.innerHTML = `
-      <button class="close-modale">&#x1F5D9;</button>
-      <h2 class="title-modal-projects">Galerie photo</h2>
+      <button class="close-modale">
+        &#x1F5D9;
+      </button>
+
+      <h2 class="title-modal-projects">
+        Galerie photo
+      </h2>
+
       <div class="modal-option">
-        <input class="btn-add-modal" type="submit" value="Ajouter une photo">
-        <p class="suppr-gallery">Supprimer la galerie</p>
+        <input class="btn-add-modal"
+        type="submit"
+        value="Ajouter une photo">
+
+          <p class="suppr-gallery">
+            Supprimer la galerie
+          </p>
       </div>
     `;
 
@@ -183,7 +194,9 @@ document.addEventListener('DOMContentLoaded', function() {
     createModale();
   });
 
-  // Fonction pour récupérer les données de l'API sur /works
+  //  ---------------------------------------------------------
+  //  | Fetching data on Api    /works                        |
+  //  ---------------------------------------------------------
   async function fetchData() {
     try {
       const response = await fetch('http://localhost:5678/api/works');
@@ -198,7 +211,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Fonction pour générer les différentes figures de la galerie
+  //  ---------------------------------------------------------
+  //  | Management for the figures in the gallery             |
+  //  ---------------------------------------------------------
   function genererFigure(projet) {
     let figureElement = document.createElement('figure');
     let categoryClass = 'filter-' + encodeURIComponent(projet.category.name.toLowerCase().replace(' ', '-'));
