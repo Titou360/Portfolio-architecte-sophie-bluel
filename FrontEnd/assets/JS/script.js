@@ -12,18 +12,18 @@ document.addEventListener('DOMContentLoaded', function() {
   //  ---------------------------------------------------------
   const editionMod = document.querySelector('.edition-mod');
 
-    if (token) {
-      editionMod.style.display = 'flex';
-      editionMod.style.position = 'fixed';
-    }
+  if (token) {
+    editionMod.style.display = 'flex';
+    editionMod.style.position = 'fixed';
+  }
 
   //  ---------------------------------------------------------
   //  | Management for the "Portfolio" section               |
   //  ---------------------------------------------------------
   const portfolio = document.querySelector('#portfolio');
   const htmlProjects = document.createElement('div');
-    htmlProjects.innerHTML =`
-      <div class="row">
+  htmlProjects.innerHTML = `
+    <div class="row">
       <h2 id="projects">
         Mes Projets
       </h2>
@@ -44,14 +44,14 @@ document.addEventListener('DOMContentLoaded', function() {
   //  ---------------------------------------------------------
   const loginLogout = document.getElementById('nav-login');
 
-    if (token) {
-      loginLogout.textContent = 'logout';
-      bodyElement.style.paddingTop = '38px';
-    }
+  if (token) {
+    loginLogout.textContent = 'logout';
+    bodyElement.style.paddingTop = '38px';
+  }
 
-    loginLogout.addEventListener('click', function() {
-      logInLogOut();
-    });
+  loginLogout.addEventListener('click', function() {
+    logInLogOut();
+  });
 
   function logInLogOut() {
     if (token === null) {
@@ -65,18 +65,18 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   //  ---------------------------------------------------------
-  //  | Management of the "modify" button"                    |
+  //  | Management of the "modify" button => Online / Offline |
   //  ---------------------------------------------------------
 
   const modifyButtonProjects = document.getElementById('btn-modal-projects');
-  const modifyButtonProfil = document.getElementById('btn-modal-profil')
-    if (token) {
-      modifyButtonProjects.style.display = 'flex';
-      modifyButtonProfil.style.display = 'flex';
-    } else {
-      modifyButtonProjects.style.display ='none';
-      modifyButtonProfil.style.display ='none';
-    }
+  const modifyButtonProfil = document.getElementById('btn-modal-profil');
+  if (token) {
+    modifyButtonProjects.style.display = 'flex';
+    modifyButtonProfil.style.display = 'flex';
+  } else {
+    modifyButtonProjects.style.display = 'none';
+    modifyButtonProfil.style.display = 'none';
+  }
 
 
   //  ---------------------------------------------------------
@@ -140,16 +140,42 @@ document.addEventListener('DOMContentLoaded', function() {
   //  | Management for the "Projects" Modal                   |
   //  ---------------------------------------------------------
 
+  async function insertProjectInModal() {
+    try {
+      const data = await fetchData();
+      const galleryModal = document.querySelector('.gallery-modal');
+  
+      data.forEach(projet => {
+        const imgContainer = document.createElement('div');
+        imgContainer.classList.add('container-modal');
+  
+        const imgElement = document.createElement('img');
+        imgElement.src = projet.imageUrl;
+        imgElement.alt = projet.title;
+        imgContainer.appendChild(imgElement);
+  
+        const editButton = document.createElement('button');
+        editButton.textContent = 'éditer';
+        editButton.className = 'btn-edit-modal';
+        imgContainer.appendChild(editButton);
+  
+        galleryModal.appendChild(imgContainer);
+      });
+    } catch (error) {
+      console.log("Une erreur s'est produite lors de la récupération des données de l'API :", error);
+    }
+  }
+
   function createObstructor() {
     const obstructor = document.createElement('div');
     obstructor.classList.add('obstructor');
     const parent = document.querySelector('main');
-    parent.style.position =('fixed');
+    parent.style.position = ('fixed');
     parent.appendChild(obstructor);
   }
 
   function createModale() {
-    const modale = document.createElement('div');
+    let modale = document.createElement('div');
     modale.classList.add('modale');
     modale.innerHTML = `
       <button class="close-modale">
@@ -159,6 +185,9 @@ document.addEventListener('DOMContentLoaded', function() {
       <h2 class="title-modal-projects">
         Galerie photo
       </h2>
+
+      <div class="gallery-modal">
+      </div>
 
       <div class="modal-option">
         <input class="btn-add-modal"
@@ -170,6 +199,9 @@ document.addEventListener('DOMContentLoaded', function() {
           </p>
       </div>
     `;
+
+    // Appeler la fonction insertProjectInModal() ici pour afficher les images au chargement de la modale
+    insertProjectInModal();
 
     const parent = document.querySelector('main');
     parent.appendChild(modale);
@@ -195,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   //  ---------------------------------------------------------
-  //  | Fetching data on Api    /works                        |
+  //  | Fetching data on Api  =>  /works                      |
   //  ---------------------------------------------------------
   async function fetchData() {
     try {
