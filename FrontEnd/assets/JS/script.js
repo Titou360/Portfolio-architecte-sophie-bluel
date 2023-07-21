@@ -4,22 +4,29 @@ document.addEventListener('DOMContentLoaded', function() {
   const editionMod = document.querySelector('.edition-mod');
   const loginLogout = document.getElementById('nav-login');
   const bodyElement = document.body;
-  
-
-  if (token) {
-    editionMod.style.display = 'flex';
-    editionMod.style.position ="fixed";
-    loginLogout.textContent = 'logout';
-    bodyElement.style.paddingTop = "38px";
-
-  }
+  const portfolio = document.querySelector('#portfolio');
+  const html = `
+    <div class="row">
+      <h2 id="projects">Mes Projets</h2>
+      <button id="btntomodalprojects" class="btn-modify">modifier</button>
+    </div>
+    ${!token ? '<div class="filters"></div>' : ''}
+    <div class="gallery"></div>
+  `;
 
   //  ---------------------------------------------------------
   //  | Management of the action of the "login/logout" button |
   //  ---------------------------------------------------------
 
+  if (token) {
+    editionMod.style.display = 'flex';
+    editionMod.style.position = 'fixed';
+    loginLogout.textContent = 'logout';
+    bodyElement.style.paddingTop = '38px';
+  }
+
   // add event listening on the  "login/logout" button
-  loginLogout.addEventListener('click', function () {
+  loginLogout.addEventListener('click', function() {
     logInLogOut();
   });
 
@@ -35,49 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  let titleProjects = 'Mes Projets';
-  let portfolio = document.querySelector('#portfolio');
-
-  let html = `
-    <div class="row">
-      <h2 id="projects">${titleProjects}</h2>
-      <button id="btntomodalprojects" class="btn-modify">modifier</button>
-    </div>
-    <div class="filters"></div>
-    <div class="gallery"></div>
-  `;
+  // Generate gallery and filters
   portfolio.innerHTML = html;
-
-  //* Créer une fonction pour récupérer les données de l'API sur /works *//
-  const fetchData = async () => {
-    try {
-      const response = await fetch("http://localhost:5678/api/works");
-      if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des données de l\'API');
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  };
-
-  //* Créer une fonction pour générer les différentes figures de la galerie //
-  const genererFigure = (projet) => {
-    let figureElement = document.createElement('figure');
-    let categoryClass = 'filter-' + encodeURIComponent(projet.category.name.toLowerCase().replace(' ', '-'));
-    figureElement.classList.add(categoryClass);
-    let imgElement = document.createElement('img');
-    imgElement.src = projet.imageUrl;
-    imgElement.alt = projet.title;
-    let figcaptionElement = document.createElement('figcaption');
-    figcaptionElement.textContent = projet.title;
-    figureElement.appendChild(imgElement);
-    figureElement.appendChild(figcaptionElement);
-    let containerElement = document.querySelector('.gallery');
-    containerElement.appendChild(figureElement);
-  };
 
   fetchData()
     .then(data => {
@@ -86,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
 
       const categories = new Set();
-      categories.add("Tous");
+      categories.add('Tous');
       data.forEach(projet => {
         categories.add(projet.category.name);
       });
@@ -103,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         filtersContainer.appendChild(button);
         filterButtons.push(button);
 
-        if (category === "Tous") {
+        if (category === 'Tous') {
           button.classList.add('filter-tous');
         } else {
           const categoryClass = 'filter-' + encodeURIComponent(category.toLowerCase().replace(' ', '-'));
@@ -128,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
     })
-    .catch((error) => {
+    .catch(error => {
       console.log("Une erreur s'est produite lors de la récupération des données :", error);
     });
 
@@ -155,12 +121,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const parent = document.querySelector('main');
     parent.appendChild(modale);
-    modale
-      .querySelector('button.close-modale')
-      .addEventListener('click', () => {
-        destroyObstructor();
-        destroyModale();
-      });
+    modale.querySelector('button.close-modale').addEventListener('click', () => {
+      destroyObstructor();
+      destroyModale();
+    });
   }
 
   function destroyModale() {
@@ -173,10 +137,39 @@ document.addEventListener('DOMContentLoaded', function() {
     obstructor.remove();
   }
 
-  document
-    .querySelector('#btntomodalprojects')
-    .addEventListener('click', () => {
-      createObstructor();
-      createModale();
-    });
+  document.querySelector('#btntomodalprojects').addEventListener('click', () => {
+    createObstructor();
+    createModale();
+  });
+
+  // Fonction pour récupérer les données de l'API sur /works
+  async function fetchData() {
+    try {
+      const response = await fetch('http://localhost:5678/api/works');
+      if (!response.ok) {
+        throw new Error("Erreur lors de la récupération des données de l'API");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  // Fonction pour générer les différentes figures de la galerie
+  function genererFigure(projet) {
+    let figureElement = document.createElement('figure');
+    let categoryClass = 'filter-' + encodeURIComponent(projet.category.name.toLowerCase().replace(' ', '-'));
+    figureElement.classList.add(categoryClass);
+    let imgElement = document.createElement('img');
+    imgElement.src = projet.imageUrl;
+    imgElement.alt = projet.title;
+    let figcaptionElement = document.createElement('figcaption');
+    figcaptionElement.textContent = projet.title;
+    figureElement.appendChild(imgElement);
+    figureElement.appendChild(figcaptionElement);
+    let containerElement = document.querySelector('.gallery');
+    containerElement.appendChild(figureElement);
+  }
 });
