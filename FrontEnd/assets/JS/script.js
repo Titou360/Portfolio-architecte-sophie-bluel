@@ -158,6 +158,16 @@ document.addEventListener('DOMContentLoaded', function() {
         editButton.textContent = 'éditer';
         editButton.className = 'btn-edit-modal';
         imgContainer.appendChild(editButton);
+
+        const garbageIt = document.createElement('i');
+        garbageIt.className = "garbageit";
+        imgContainer.appendChild(garbageIt);
+
+        const moveIt = document.createElement('i');
+        moveIt.className = "moveit";
+        imgContainer.appendChild(moveIt);
+
+
   
         galleryModal.appendChild(imgContainer);
       });
@@ -208,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
     modale.querySelector('button.close-modale').addEventListener('click', () => {
       destroyObstructor();
       destroyModale();
+      window.location.replace('./index.html');
     });
   }
 

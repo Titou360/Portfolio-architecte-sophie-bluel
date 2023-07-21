@@ -457,7 +457,7 @@ lable[for="email"] {
 	width: 60%;
 	align-items: center;
 	border-top: 1px solid #B3B3B3;
-	margin-top: 47px;
+	margin-top: 27px;
 }
 
 .btn-add-modal {
@@ -519,3 +519,58 @@ lable[for="email"] {
 	line-height: normal;
 	padding: 0;
 }
+
+.container-modal .garbageit {
+	position: relative;
+	bottom: 110px;
+	left: 58px;
+	width: 17px;
+	height: 17px;
+	background-color: #000000;
+}
+
+.container-modal .garbageit:before {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	font-family: "Font Awesome 5 Free" ;
+	content : "\f2ed";
+	font-weight: 200;
+	color : #FFF;
+	font-size: 9px;
+	top: 25%;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.container-modal .moveit {
+	display: none;
+	position: relative;
+	bottom: 127px;
+	left: 38px;
+	width: 17px;
+	height: 17px;
+	background-color: #000000;
+}
+
+.container-modal:hover .moveit {
+	display: flex;
+}
+
+
+.container-modal .moveit:before {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	font-family: "Font Awesome 5 Free" ;
+	content : "\f047";
+	font-weight: 900;
+	color : #FFF;
+	font-size: 9px;
+	top: 25%;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
