@@ -1,36 +1,58 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const token = localStorage.getItem('token');
-  console.log('Token:', token);
-  const editionMod = document.querySelector('.edition-mod');
-  const loginLogout = document.getElementById('nav-login');
+  //  ---------------------------------------------------------
+  //  | Create the differents constantes for the website      |
+  //  ---------------------------------------------------------
   const bodyElement = document.body;
+  const token = localStorage.getItem('token');
+  //console.log('Token:', token);
+
+
+  //  ---------------------------------------------------------
+  //  | Management of the action for edition mod              |
+  //  ---------------------------------------------------------
+  const editionMod = document.querySelector('.edition-mod');
+
+    if (token) {
+      editionMod.style.display = 'flex';
+      editionMod.style.position = 'fixed';
+    }
+
+  //  ---------------------------------------------------------
+  //  | Management for the "Portfolio" section               |
+  //  ---------------------------------------------------------
   const portfolio = document.querySelector('#portfolio');
-  const html = `
-    <div class="row">
-      <h2 id="projects">Mes Projets</h2>
-      <button id="btntomodalprojects" class="btn-modify">modifier</button>
+  const htmlProjects = document.createElement('div');
+    htmlProjects.innerHTML =`
+      <div class="row">
+      <h2 id="projects">
+        Mes Projets
+      </h2>
+
+      <button id="btn-modal-projects" class="btn-modify">
+        modifier
+      </button>
     </div>
+
     <div class="filters"></div>
     <div class="gallery"></div>
   `;
 
+  portfolio.appendChild(htmlProjects);
+
   //  ---------------------------------------------------------
   //  | Management of the action of the "login/logout" button |
   //  ---------------------------------------------------------
+  const loginLogout = document.getElementById('nav-login');
 
-  if (token) {
-    editionMod.style.display = 'flex';
-    editionMod.style.position = 'fixed';
-    loginLogout.textContent = 'logout';
-    bodyElement.style.paddingTop = '38px';
-  }
+    if (token) {
+      loginLogout.textContent = 'logout';
+      bodyElement.style.paddingTop = '38px';
+    }
 
-  // add event listening on the  "login/logout" button
-  loginLogout.addEventListener('click', function() {
-    logInLogOut();
-  });
+    loginLogout.addEventListener('click', function() {
+      logInLogOut();
+    });
 
-  // redirect function to a page according to the token
   function logInLogOut() {
     if (token === null) {
       window.location.replace('./login.html');
@@ -42,8 +64,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Generate gallery and filters
-  portfolio.innerHTML = html;
+  //  ---------------------------------------------------------
+  //  | Management of the "modify" button"                    |
+  //  ---------------------------------------------------------
+
+  const modifyButtonProjects = document.getElementById('btn-modal-projects');
+  const modifyButtonProfil = document.getElementById('btn-modal-profil')
+    if (token) {
+      modifyButtonProjects.style.display = 'flex';
+      modifyButtonProfil.style.display = 'flex';
+    } else {
+      modifyButtonProjects.style.display ='none';
+      modifyButtonProfil.style.display ='none';
+    }
+
+
+  //  ---------------------------------------------------------
+  //  | Management for the categorie section                  |
+  //  ---------------------------------------------------------
 
   fetchData()
     .then(data => {
@@ -98,12 +136,15 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log("Une erreur s'est produite lors de la récupération des données :", error);
     });
 
-  /** Modal **/
+  //  ---------------------------------------------------------
+  //  | Management for the Projects Modal                     |
+  //  ---------------------------------------------------------
 
   function createObstructor() {
     const obstructor = document.createElement('div');
     obstructor.classList.add('obstructor');
     const parent = document.querySelector('main');
+    parent.style.position =('fixed');
     parent.appendChild(obstructor);
   }
 
@@ -137,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
     obstructor.remove();
   }
 
-  document.querySelector('#btntomodalprojects').addEventListener('click', () => {
+  document.querySelector('#btn-modal-projects').addEventListener('click', () => {
     createObstructor();
     createModale();
   });
