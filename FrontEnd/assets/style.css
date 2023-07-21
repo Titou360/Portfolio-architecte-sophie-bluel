@@ -369,6 +369,7 @@ lable[for="email"] {
 }
 
 .btn-modify {
+	display: none;
 	background: transparent;
 	border: none;
 	text-transform: lowercase;

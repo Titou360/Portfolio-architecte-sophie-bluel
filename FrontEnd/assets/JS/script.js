@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <h2 id="projects">Mes Projets</h2>
       <button id="btntomodalprojects" class="btn-modify">modifier</button>
     </div>
-    ${!token ? '<div class="filters"></div>' : ''}
+    <div class="filters"></div>
     <div class="gallery"></div>
   `;
 
