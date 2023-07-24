@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     `;
 
-    // Appeler la fonction insertProjectInModal() ici pour afficher les images au chargement de la modale
+    // Call the fonction insertProjectInModal() to display img on loading modal
     insertProjectInModal();
 
     const parent = document.querySelector('main');
