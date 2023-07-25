@@ -264,7 +264,7 @@ a:hover {
     flex-direction: column;
 }
 
-.container-login-input {
+.container-login-label {
 	display: flex;
 	flex-direction: column;
 }
@@ -395,7 +395,7 @@ lable[for="email"] {
 	gap : 31px;
   }
 
-  /* Modal */
+  /* Modal "Gallery */
 
   .modale {
 	position:fixed ;
@@ -431,7 +431,6 @@ lable[for="email"] {
   }
 
   .close-modale {
-	position: fixed;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -441,7 +440,6 @@ lable[for="email"] {
 	width: 24px;
 	height: 24px;
 	flex-shrink: 0;
-	padding: 6px;
 	right: 0;
 	margin-right: 30px;
 	margin-top: 26px;
@@ -573,4 +571,123 @@ lable[for="email"] {
 	left: 50%;
 	transform: translateX(-50%);
 }
+
+
+/* Modal "Add a photo" */
+
+.modale-add {
+	position:fixed ;
+	background-color: #FFF;
+	padding: 10px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display : flex;
+	justify-content : flex-start;
+	flex-direction : column;
+	width : 630px;
+	height: 670px;
+}
+
+.btn-add-photo {
+	border : none;
+	margin-bottom : 7px;
+  }
+
+.title-modal-projects {
+	margin-bottom : 36px;
+}
+  
+i  {
+	font-family: "Font Awesome 5 Free" ;
+	content : "\f2ed";
+	font-weight: 200; 
+}
+
+.backandclose {
+	display : flex;
+	justify-content : space-between;
+	align-items: center;
+}
+
+.fa-arrow-left {
+	margin-left : 30px;
+	margin-top: 26px;
+}
+
+.bluerectangle {
+	border-radius: 3px;
+	background: #E8F1F6;
+	width : 420px;
+	height : 169px;
+	display : flex;
+	flex-direction : column;
+	align-items : center;
+}
+
+  svg {
+	width: 58px;
+	height: 58px;
+	flex-shrink: 0;
+	margin-bottom : 15px;
+  }
+  
+  .container-add-photo {
+	display : flex;
+	flex-direction : column;
+	justify-content : center;
+	align-items : center;
+	margin-top : 36px;
+	background-color : #e1e1e1,
+  }
+  
+  .input-add-photo {
+	width : 0;
+	height : 0;
+	opacity : 0;
+  }
+  
+  .info-img {
+	margin-top : 7px;
+  }
+  
+  #btn-add-photo {
+	width: 173px;
+	height: 36px;
+	flex-shrink: 0;
+	border-radius: 50px;
+	background: #CBD6DC;
+	padding : 10px 33px;
+	border : none;
+  }
+  
+  .container-option-photo {
+	display : flex;
+	flex-direction : column;
+	justify-content : center;
+  }
+  
+  .option-photo-label, #dwarfs {
+	display: flex;
+	flex-direction : column;
+	width: 420px;
+	height: 51px;
+	flex-shrink: 0;
+	border-radius: 10px;
+	background: #FFF;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+  }
+  
+  
+  select[multiple] {
+	height: 51px;
+	vertical-align: top;
+  }
+  select[multiple]:focus,
+  select[multiple]:active {
+	height: auto;
+  }
+  
+
+
 
