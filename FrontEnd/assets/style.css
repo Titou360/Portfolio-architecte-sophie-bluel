@@ -177,7 +177,7 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+input[type="submit"], .submit-photo-active{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -632,6 +632,8 @@ i  {
 	height: 58px;
 	flex-shrink: 0;
 	margin-bottom : 15px;
+	margin-top: 22px;
+
   }
   
   .container-add-photo {
@@ -651,6 +653,8 @@ i  {
   
   .info-img {
 	margin-top : 7px;
+	margin-bottom: 19px;
+
   }
   
   #btn-add-photo {
@@ -661,6 +665,13 @@ i  {
 	background: #CBD6DC;
 	padding : 10px 33px;
 	border : none;
+	color: #306685;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
   }
   
   .container-option-photo {
@@ -669,7 +680,7 @@ i  {
 	justify-content : center;
   }
   
-  .option-photo-label, #dwarfs {
+  .option-photo-label, #category {
 	display: flex;
 	flex-direction : column;
 	width: 420px;
@@ -678,6 +689,7 @@ i  {
 	border-radius: 10px;
 	background: #FFF;
 	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	margin: 0 auto;
   }
   
   
@@ -689,7 +701,76 @@ i  {
   select[multiple]:active {
 	height: auto;
   }
-  
 
+  .submit-photo-inactive {
+	width: 237px;
+	height: 36px;
+	flex-shrink: 0;
+	border-radius: 60px;
+	background: #A7A7A7;
+	color: #FFF;
+	text-align: center;
+	font-family: Syne;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	margin-top: 32px;
+  }
+
+.submit-photo-active {
+	padding: 10px 49px 9px 49px;
+	width: 237px;
+	height: 36px;
+}
+  
+label[for="title"] {
+	margin-top: 30px;
+    margin-bottom: 10px;
+	margin-left: 105px;
+}
+
+label[for="category"] {
+	margin-top: 21px;
+	margin-bottom: 10px;
+	margin-left: 105px;
+	
+}
+
+option {
+	color: #44444;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 18px auto 17px 16px;
+}
+
+.option-photo-label {
+	color: #444444;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 18px auto 17px 16px;
+	border: none;
+}
+
+#category {
+	border: none;
+}
+
+#category input {
+	color: #444444;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	padding: 18px auto 17px 16px;
+	margin: 0 auto;
+}
 
 

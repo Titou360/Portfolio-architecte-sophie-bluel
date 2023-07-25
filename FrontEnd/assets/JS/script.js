@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="filters"></div>
+
     <div class="gallery"></div>
   `;
 
@@ -212,12 +213,12 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     `;
 
-    // Call the fonction insertProjectInModal() to display img on loading modal
-    insertProjectInModal();
+     insertProjectInModal(); 
 
     const parent = document.querySelector('main');
     parent.appendChild(modale);
-    modale.querySelector('button.close-modale').addEventListener('click', () => {
+
+   modale.querySelector('button.close-modale').addEventListener('click', () => {
       destroyObstructor();
       destroyModale();
       window.location.replace('./index.html');
@@ -255,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <h2 class="title-modal-projects">
     Ajouter une photo
   </h2>
-  
+
 <div class="container-add-photo">
   <div class="bluerectangle">
     <svg xmlns="http://www.w3.org/2000/svg" width="58" height="58" viewBox="0 0 58 58" fill="none">
@@ -264,34 +265,63 @@ document.addEventListener('DOMContentLoaded', function() {
 <path d="M7.00004 46C7.23404 46 7.47004 45.918 7.66004 45.751L23.973 31.389L34.275 41.69C34.666 42.081 35.298 42.081 35.689 41.69C36.08 41.299 36.08 40.667 35.689 40.276L30.882 35.469L40.063 25.415L51.324 35.738C51.731 36.111 52.364 36.083 52.737 35.676C53.11 35.269 53.083 34.636 52.675 34.263L40.675 23.263C40.479 23.084 40.218 22.995 39.955 23.001C39.69 23.013 39.44 23.13 39.261 23.326L29.467 34.053L24.724 29.31C24.35 28.937 23.752 28.918 23.356 29.266L6.33904 44.249C5.92404 44.614 5.88404 45.246 6.24904 45.661C6.44704 45.886 6.72304 46 7.00004 46Z" fill="#B9C5CC"/>
 </svg>
   
-  <button class="btn-add-photo">
-    <label for="img" id="btn-add-photo">+ Ajouter photo
-       <input class="input-add-photo" type="file" id="img" name="img" accept="image/png, image/jpg">
-  </button>
+    <button class="btn-add-photo">
+      <label for="image" id="btn-add-photo">+ Ajouter photo
+       <input
+        class="input-add-photo"
+        type="file"
+        id="image"
+        name="image"
+        accept="image/png, image/jpg">
+    </button>
+
     <p class="info-img">
       jpg, png : 4 mo max
     </p>
+
   </div>
 </div>
   
-<form class="container-option-photo"
-  <label for="name">Titre</label>
-   <input class="option-photo-label" type="text" id="title"             name="title" required size="10">
-  <label for="name">Catégorie</label>
-    <input class="option-photo-label" type="text" id="category"         name="category" required size="10">
+<form class="container-option-photo" id="uploadForm">
+  <label for="title" required>
+    Titre
+  </label>
 
-<select multiple name="dwarfs" id="dwarfs">
-  <option></option>
-  <option>Catégorie 1 </option>
-  <option>Catégorie 2</option>
-  <option>Catégorie 3</option>
-</select>
+  <input
+    class="option-photo-label"
+    type="text"
+    id="title"
+    name="title"
+    required>
+
+  <label for="category">
+    Catégorie
+  </label>
+  
+  <select id="category" name="category" required>
+      <option></option>
+      <option>Catégorie 1 </option>
+      <option>Catégorie 2</option>
+      <option>Catégorie 3</option>
+    </select>
 </form>
 
+<div class="modal-option">
+  <button class= "submit-photo-active" type="submit">
+    Valider
+  </button>
+</div>
     `;
 
     const parent = document.querySelector('main');
     parent.appendChild(addPhotoModal);
+
+    const arrowToBack = document.querySelector('.fa-arrow-left');
+    arrowToBack.addEventListener('click', () => {
+      addPhotoModal.remove();
+      createModale();
+
+    });
 
     addPhotoModal.querySelector('.close-modale').addEventListener('click', () => {
       addPhotoModal.remove();
