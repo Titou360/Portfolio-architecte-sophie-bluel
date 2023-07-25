@@ -3,6 +3,10 @@
    License: none (public domain)
 */
 
+* {
+    box-sizing: border-box;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -585,6 +589,8 @@ lable[for="email"] {
 	flex-direction : column;
 	width : 630px;
 	height: 670px;
+	border-radius: 10px;
+	flex-shrink: 0;
 }
 
 .btn-add-photo {
@@ -680,7 +686,7 @@ i  {
 	justify-content : center;
   }
   
-  .option-photo-label, #category {
+  #categorySelect, #title {
 	display: flex;
 	flex-direction : column;
 	width: 420px;
@@ -691,16 +697,7 @@ i  {
 	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
 	margin: 0 auto;
   }
-  
-  
-  select[multiple] {
-	height: 51px;
-	vertical-align: top;
-  }
-  select[multiple]:focus,
-  select[multiple]:active {
-	height: auto;
-  }
+
 
   .submit-photo-inactive {
 	width: 237px;
@@ -716,6 +713,7 @@ i  {
 	font-weight: 700;
 	line-height: normal;
 	margin-top: 32px;
+	border: none;
   }
 
 .submit-photo-active {
@@ -738,16 +736,6 @@ label[for="category"] {
 }
 
 option {
-	color: #44444;
-	font-family: Work Sans;
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
-	padding: 18px auto 17px 16px;
-}
-
-.option-photo-label {
 	color: #444444;
 	font-family: Work Sans;
 	font-size: 14px;
@@ -755,14 +743,27 @@ option {
 	font-weight: 400;
 	line-height: normal;
 	padding: 18px auto 17px 16px;
+}
+
+.option-photo-input {
+	color: #444444;
+	font-family: Work Sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	border: none;
+	padding-top: 18px;
+	padding-bottom: 17px;
+	padding-left: 16px;
+}
+
+#categorySelect {
 	border: none;
 }
 
-#category {
-	border: none;
-}
-
-#category input {
+select[option]:checked {
+	margin: 18px auto 17px 16px;
 	color: #444444;
 	font-family: Work Sans;
 	font-size: 14px;
@@ -770,7 +771,12 @@ option {
 	font-weight: 400;
 	line-height: normal;
 	padding: 18px auto 17px 16px;
-	margin: 0 auto;
 }
+
+select[option]:focus,
+select[container-option]:active {
+	height: auto;
+	margin: 18px auto 17px 16px;
+  }
 
 

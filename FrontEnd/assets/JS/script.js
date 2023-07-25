@@ -3,6 +3,10 @@ document.addEventListener('DOMContentLoaded', function() {
   //  | Create the differents constantes for the website      |
   //  ---------------------------------------------------------
   const bodyElement = document.body;
+
+  //  ---------------------------------------------------------
+  //  | Management for the token                              |
+  //  ---------------------------------------------------------
   const token = localStorage.getItem('token');
   //console.log('Token:', token);
 
@@ -34,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="filters"></div>
-
     <div class="gallery"></div>
   `;
 
@@ -79,66 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
     modifyButtonProfil.style.display = 'none';
   }
 
-
-  //  ---------------------------------------------------------
-  //  | Management for the categorie section                  |
-  //  ---------------------------------------------------------
-
-  fetchData()
-    .then(data => {
-      data.forEach(function(projet) {
-        genererFigure(projet);
-      });
-
-      const categories = new Set();
-      categories.add('Tous');
-      data.forEach(projet => {
-        categories.add(projet.category.name);
-      });
-
-      const filtersContainer = document.querySelector('.filters');
-      const allFigures = document.querySelectorAll('.gallery figure');
-      const filterButtons = [];
-
-      categories.forEach(category => {
-        const button = document.createElement('button');
-        const buttonClass = 'btn-filter';
-        button.classList.add(buttonClass);
-        button.textContent = category;
-        filtersContainer.appendChild(button);
-        filterButtons.push(button);
-
-        if (category === 'Tous') {
-          button.classList.add('filter-tous');
-        } else {
-          const categoryClass = 'filter-' + encodeURIComponent(category.toLowerCase().replace(' ', '-'));
-          button.classList.add(categoryClass);
-        }
-      });
-
-      filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          filterButtons.forEach(btn => {
-            btn.classList.remove('data-active');
-          });
-
-          button.classList.add('data-active');
-          const categoryClass = button.classList[1];
-
-          allFigures.forEach(figure => {
-            const figureCategories = Array.from(figure.classList).filter(className => className.startsWith('filter-'));
-            const shouldDisplay = categoryClass === 'filter-tous' || figureCategories.includes(categoryClass);
-            figure.style.display = shouldDisplay ? 'block' : 'none';
-          });
-        });
-      });
-    })
-    .catch(error => {
-      console.log("Une erreur s'est produite lors de la récupération des données :", error);
-    });
-
-    
-
   //  ---------------------------------------------------------
   //  | Management for the "Projects" Modal                   |
   //  ---------------------------------------------------------
@@ -170,8 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
         moveIt.className = "moveit";
         imgContainer.appendChild(moveIt);
 
-
-  
         galleryModal.appendChild(imgContainer);
       });
     } catch (error) {
@@ -240,6 +181,11 @@ document.addEventListener('DOMContentLoaded', function() {
     obstructor.remove();
   }
 
+  document.querySelector('#btn-modal-projects').addEventListener('click', () => {
+    createObstructor();
+    createModale();
+  });
+
   function createAddPhotoModal() {
     const addPhotoModal = document.createElement('div');
     addPhotoModal.classList.add('modale-add')
@@ -288,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </label>
 
   <input
-    class="option-photo-label"
+    class="option-photo-input"
     type="text"
     id="title"
     name="title"
@@ -298,16 +244,12 @@ document.addEventListener('DOMContentLoaded', function() {
     Catégorie
   </label>
   
-  <select id="category" name="category" required>
-      <option></option>
-      <option>Catégorie 1 </option>
-      <option>Catégorie 2</option>
-      <option>Catégorie 3</option>
+  <select id="categorySelect" name="category" class="option-photo-input" required>
     </select>
 </form>
 
 <div class="modal-option">
-  <button class= "submit-photo-active" type="submit">
+  <button class= "submit-photo-inactive" type="submit">
     Valider
   </button>
 </div>
@@ -328,13 +270,71 @@ document.addEventListener('DOMContentLoaded', function() {
       destroyObstructor();
       window.location.replace('./index.html');
     });
+
   }
 
-  document.querySelector('#btn-modal-projects').addEventListener('click', () => {
-    createObstructor();
-    createModale();
-  });
 
+  //  ---------------------------------------------------------
+  //  | Management for the categorie section                  |
+  //  ---------------------------------------------------------
+
+  fetchData()
+    .then(data => {
+      data.forEach(function(projet) {
+        genererFigure(projet);
+      });
+
+      const categories = new Set();
+      categories.add('Tous');
+      data.forEach(projet => {
+        categories.add(projet.category.name);
+      });
+
+      const filtersContainer = document.querySelector('.filters');
+      const allFigures = document.querySelectorAll('.gallery figure');
+      const filterButtons = [];
+
+    categories.forEach(category => {
+        const button = document.createElement('button');
+        const buttonClass = 'btn-filter';
+        button.classList.add(buttonClass);
+        button.textContent = category;
+        filtersContainer.appendChild(button);
+        filterButtons.push(button);
+
+        if (category === 'Tous') {
+          button.classList.add('filter-tous');
+        } else {
+          const categoryClass = 'filter-' + encodeURIComponent(category.toLowerCase().replace(' ', '-'));
+          button.classList.add(categoryClass);
+        }
+      });
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          filterButtons.forEach(btn => {
+            btn.classList.remove('data-active');
+          });
+
+          button.classList.add('data-active');
+          const categoryClass = button.classList[1];
+
+          allFigures.forEach(figure => {
+            const figureCategories = Array.from(figure.classList).filter(className => className.startsWith('filter-'));
+            const shouldDisplay = categoryClass === 'filter-tous' || figureCategories.includes(categoryClass);
+            figure.style.display = shouldDisplay ? 'block' : 'none';
+          });
+        });
+      });
+
+      if (token) {
+        filtersContainer.style.display = 'none';
+      }
+    })
+
+  
+
+ 
   //  ---------------------------------------------------------
   //  | Fetching data on Api  =>  /works                      |
   //  ---------------------------------------------------------
