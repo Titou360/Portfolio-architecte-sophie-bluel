@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
   //  | Create the differents constantes for the website      |
   //  ---------------------------------------------------------
   const bodyElement = document.body;
-
   //  ---------------------------------------------------------
   //  | Management for the token                              |
   //  ---------------------------------------------------------
@@ -163,6 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
       destroyObstructor();
       destroyModale();
       window.location.replace('./index.html');
+
     });
 
     document.querySelector('.btn-add-modal').addEventListener('click', () => {
@@ -184,6 +184,8 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#btn-modal-projects').addEventListener('click', () => {
     createObstructor();
     createModale();
+
+  
   });
 
   async function createAddPhotoModal() {
@@ -200,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </button>
 
   <h2 class="title-modal-projects">
-    Ajouter une photo
+    Ajout photo
   </h2>
 
 <div class="container-add-photo">
@@ -263,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
       addPhotoModal.remove();
       createModale();
 
-    });
+});
 
     addPhotoModal.querySelector('.close-modale').addEventListener('click', () => {
       addPhotoModal.remove();
@@ -271,12 +273,35 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.replace('./index.html');
     });
 
-    /**/const categoriesData = await fetchCategories();
+// Transform the form into the choosen picture 
+document.querySelector('#image').addEventListener('change', function(event) {
+  const input = event.target;
+  const selectedImage = input.files[0];
+
+  if (selectedImage) {
+    const imageURL = URL.createObjectURL(selectedImage);
+    const imageElement = document.createElement('img');
+    imageElement.src = imageURL;
+    imageElement.id = 'imageStore';
+
+    const bluerectangleDiv = document.querySelector('.bluerectangle');
+
+    while (bluerectangleDiv.firstChild) {
+      bluerectangleDiv.removeChild(bluerectangleDiv.firstChild);
+    }
+    bluerectangleDiv.appendChild(imageElement);
+  }
+});
+
+  //  ---------------------------------------------------------
+  //  |Management for the categories in the "add photo modal" |
+  //  ---------------------------------------------------------
+    const categoriesData = await fetchCategories();
     const categorySelect = addPhotoModal.querySelector('#categorySelect');
 
     const option1 = document.createElement('option');
     categorySelect.appendChild(option1);
-    
+
     categoriesData.forEach(category => {
       const option = document.createElement('option');
       option.value = category.id;
@@ -396,3 +421,4 @@ document.addEventListener('DOMContentLoaded', function() {
     containerElement.appendChild(figureElement);
   }
 });
+

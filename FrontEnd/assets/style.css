@@ -527,6 +527,7 @@ lable[for="email"] {
 	width: 17px;
 	height: 17px;
 	background-color: #000000;
+	cursor: pointer;
 }
 
 .container-modal .garbageit:before {
@@ -556,6 +557,7 @@ lable[for="email"] {
 
 .container-modal:hover .moveit {
 	display: flex;
+	cursor: grab;
 }
 
 
@@ -779,4 +781,10 @@ select[container-option]:active {
 	margin: 18px auto 17px 16px;
   }
 
+#imageStore {
+	width: 129px ;
+	height: 193px;
+	object-fit: cover;
+	cursor: pointer;
+}
 
