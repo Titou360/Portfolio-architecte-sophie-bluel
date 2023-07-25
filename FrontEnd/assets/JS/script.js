@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
     createModale();
   });
 
-  function createAddPhotoModal() {
+  async function createAddPhotoModal() {
     const addPhotoModal = document.createElement('div');
     addPhotoModal.classList.add('modale-add')
     addPhotoModal.innerHTML = `
@@ -271,6 +271,32 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.replace('./index.html');
     });
 
+    /**/const categoriesData = await fetchCategories();
+    const categorySelect = addPhotoModal.querySelector('#categorySelect');
+
+    const option1 = document.createElement('option');
+    categorySelect.appendChild(option1);
+    
+    categoriesData.forEach(category => {
+      const option = document.createElement('option');
+      option.value = category.id;
+      option.textContent = category.name;
+      categorySelect.appendChild(option);
+    });
+
+    async function fetchCategories() {
+      try {
+        const response = await fetch('http://localhost:5678/api/categories');
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération des catégories de l'API");
+        }
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    }
   }
 
 
