@@ -431,9 +431,7 @@ lable[for="email"] {
   }
 
   .close-modale {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	position: absolute;
 	cursor: pointer;
 	background: transparent;
 	border: none;
@@ -604,14 +602,18 @@ i  {
 	font-weight: 200; 
 }
 
-.backandclose {
-	display : flex;
-	justify-content : space-between;
-	align-items: center;
-}
-
-.fa-arrow-left {
+.backtopreviousmodal {
+	position: absolute;
 	margin-left : 30px;
+	margin-top: 26px;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	width: 24px;
+	height: 24px;
+	flex-shrink: 0;
+	left: 0;
+	margin-left: 30px;
 	margin-top: 26px;
 }
 

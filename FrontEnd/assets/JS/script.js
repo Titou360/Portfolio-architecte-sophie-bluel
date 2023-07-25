@@ -243,14 +243,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const addPhotoModal = document.createElement('div');
     addPhotoModal.classList.add('modale-add')
     addPhotoModal.innerHTML = `
-    <div class="backandclose">
-  <a href="#"><i class="fa-solid fa-arrow-left"></i></a>
-<button class="close-modale">&#x1F5D9;
-</button>
-</div>
-      <h2 class="title-modal-projects">
-        Ajouter une photo
-      </h2>
+  <button class="backtopreviousmodal">
+    <i class="fa-solid fa-arrow-left">
+    </i>
+  </button>
+
+  <button class="close-modale">
+    &#x1F5D9;
+  </button>
+
+  <h2 class="title-modal-projects">
+    Ajouter une photo
+  </h2>
+  
 <div class="container-add-photo">
   <div class="bluerectangle">
     <svg xmlns="http://www.w3.org/2000/svg" width="58" height="58" viewBox="0 0 58 58" fill="none">
