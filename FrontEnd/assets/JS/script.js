@@ -91,12 +91,13 @@ document.addEventListener('DOMContentLoaded', function() {
       const galleryModal = document.querySelector('.gallery-modal');
   
       data.forEach(projet => {
-        const imgContainer = document.createElement('div');
+        const imgContainer = document.createElement('figure');
         imgContainer.classList.add('container-modal');
   
         const imgElement = document.createElement('img');
         imgElement.src = projet.imageUrl;
         imgElement.alt = projet.title;
+        imgContainer.id = projet.id;/**/
         imgContainer.appendChild(imgElement);
   
         const editButton = document.createElement('button');
@@ -185,7 +186,6 @@ document.addEventListener('DOMContentLoaded', function() {
     createObstructor();
     createModale();
 
-  
   });
 
   async function createAddPhotoModal() {
@@ -264,8 +264,9 @@ document.addEventListener('DOMContentLoaded', function() {
     arrowToBack.addEventListener('click', () => {
       addPhotoModal.remove();
       createModale();
+  });
+  
 
-});
 
     addPhotoModal.querySelector('.close-modale').addEventListener('click', () => {
       addPhotoModal.remove();
@@ -421,9 +422,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     })
 
-  
-
- 
   //  ---------------------------------------------------------
   //  | Fetching data on Api  =>  /works                      |
   //  ---------------------------------------------------------
@@ -458,4 +456,20 @@ document.addEventListener('DOMContentLoaded', function() {
     let containerElement = document.querySelector('.gallery');
     containerElement.appendChild(figureElement);
   }
+
+  //  ---------------------------------------------------------
+  //  | Delete a project from Gallery & database        |
+  //  ---------------------------------------------------------
+
+document.querySelector('main').addEventListener('click', function(event) {
+  //Vérifier si l'élément cliqué est une icône "poubelle"
+  if (event.target.classList.contains('garbageit')) {
+    //Récupère l'élément figure parent correspondant
+    const figure = event.target.closest('figure');
+    
+    const workId = figure.dataset.id;
+    console.log(workId);
+    
+  }
+});
 });
