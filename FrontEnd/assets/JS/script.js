@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
   //  |Transform the form into the choosen picture            |
   //  ---------------------------------------------------------
 
-  document.querySelector('#image').addEventListener('change', function (event) {
+  function loadImage(event) {
     const selectedImage = event.target.files[0];
     if (selectedImage) {
       const imageURL = URL.createObjectURL(selectedImage);
@@ -285,32 +285,50 @@ document.addEventListener('DOMContentLoaded', function() {
       imageElement.src = imageURL;
       imageElement.id = 'imageStore';
       imageElement.classList.add('clickable'); // Ajoutez une classe pour rendre l'image cliquable
-
+  
       const existingInput = document.querySelector('.bluerectangle input');
       if (existingInput) {
         existingInput.remove();
       }
-
+  
       const bluerectangleDiv = document.querySelector('.bluerectangle');
       bluerectangleDiv.innerHTML = ''; // Supprimez le contenu existant
-
+  
       bluerectangleDiv.appendChild(imageElement);
-
+  
       // Créez un nouvel input à la fin de la div .bluerectangle
       const newInputElement = document.createElement('input');
       newInputElement.className = 'input-add-photo';
       newInputElement.type = 'file';
       newInputElement.id = 'image';
       newInputElement.name = 'image';
-      newInputElement.accept = 'image/png, image/jpg';
-
+      newInputElement.accept = 'image/png, image/jpg','image/jpeg';
+  
       bluerectangleDiv.appendChild(newInputElement);
-
+  
+      function destroyLastElement() {
+        const lastElement = document.querySelector('#imageStore');
+        if (lastElement) {
+          lastElement.remove();
+        }
+      }
+  
       // Ajoutez un gestionnaire d'événement au clic sur l'image pour ouvrir l'input
       imageElement.addEventListener('click', function () {
+        destroyLastElement();
         newInputElement.click();
       });
+  
+      // Ajoutez un gestionnaire d'événement pour le nouvel input créé
+      newInputElement.addEventListener('change', function (event) {
+        loadImage(event);
+      });
     }
+  }
+  
+  // Ajoutez le gestionnaire d'événement initial pour l'input file existant
+  document.querySelector('#image').addEventListener('change', function (event) {
+    loadImage(event);
   });
 
   //  ---------------------------------------------------------
