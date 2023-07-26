@@ -277,24 +277,41 @@ document.addEventListener('DOMContentLoaded', function() {
   //  |Transform the form into the choosen picture            |
   //  ---------------------------------------------------------
 
-document.querySelector('#image').addEventListener('change', function(event) {
-  const input = event.target;
-  const selectedImage = input.files[0];
+  document.querySelector('#image').addEventListener('change', function (event) {
+    const selectedImage = event.target.files[0];
+    if (selectedImage) {
+      const imageURL = URL.createObjectURL(selectedImage);
+      const imageElement = document.createElement('img');
+      imageElement.src = imageURL;
+      imageElement.id = 'imageStore';
+      imageElement.classList.add('clickable'); // Ajoutez une classe pour rendre l'image cliquable
 
-  if (selectedImage) {
-    const imageURL = URL.createObjectURL(selectedImage);
-    const imageElement = document.createElement('img');
-    imageElement.src = imageURL;
-    imageElement.id = 'imageStore';
+      const existingInput = document.querySelector('.bluerectangle input');
+      if (existingInput) {
+        existingInput.remove();
+      }
 
-    const bluerectangleDiv = document.querySelector('.bluerectangle');
+      const bluerectangleDiv = document.querySelector('.bluerectangle');
+      bluerectangleDiv.innerHTML = ''; // Supprimez le contenu existant
 
-    while (bluerectangleDiv.firstChild) {
-      bluerectangleDiv.removeChild(bluerectangleDiv.firstChild);
+      bluerectangleDiv.appendChild(imageElement);
+
+      // Créez un nouvel input à la fin de la div .bluerectangle
+      const newInputElement = document.createElement('input');
+      newInputElement.className = 'input-add-photo';
+      newInputElement.type = 'file';
+      newInputElement.id = 'image';
+      newInputElement.name = 'image';
+      newInputElement.accept = 'image/png, image/jpg';
+
+      bluerectangleDiv.appendChild(newInputElement);
+
+      // Ajoutez un gestionnaire d'événement au clic sur l'image pour ouvrir l'input
+      imageElement.addEventListener('click', function () {
+        newInputElement.click();
+      });
     }
-    bluerectangleDiv.appendChild(imageElement);
-  }
-});
+  });
 
   //  ---------------------------------------------------------
   //  |Management for the categories in the "add photo modal" |
