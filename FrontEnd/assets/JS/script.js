@@ -273,7 +273,10 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.replace('./index.html');
     });
 
-// Transform the form into the choosen picture 
+  //  ---------------------------------------------------------
+  //  |Transform the form into the choosen picture            |
+  //  ---------------------------------------------------------
+
 document.querySelector('#image').addEventListener('change', function(event) {
   const input = event.target;
   const selectedImage = input.files[0];
@@ -421,4 +424,3 @@ document.querySelector('#image').addEventListener('change', function(event) {
     containerElement.appendChild(figureElement);
   }
 });
-
