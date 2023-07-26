@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </form>
 
 <div class="modal-option">
-  <button class= "submit-photo-inactive" type="submit">
+  <button id="submitBtn" class= "submit-photo-inactive" type="submit" >
     Valider
   </button>
 </div>
@@ -265,8 +265,6 @@ document.addEventListener('DOMContentLoaded', function() {
       addPhotoModal.remove();
       createModale();
   });
-  
-
 
     addPhotoModal.querySelector('.close-modale').addEventListener('click', () => {
       addPhotoModal.remove();
@@ -457,9 +455,20 @@ document.addEventListener('DOMContentLoaded', function() {
     containerElement.appendChild(figureElement);
   }
 
-  //  ---------------------------------------------------------
-  //  | Delete a project from Gallery & database        |
-  //  ---------------------------------------------------------
+
+//  ---------------------------------------------------------
+//  | Add a project from Gallery & database                 |
+//  ---------------------------------------------------------
+const submitBtn = document.querySelector('#submitBtn');
+  submitBtn.addEventListener('click', () => {
+  console.log('Vous avez cliqué sur Valider');
+});
+
+
+
+//  ---------------------------------------------------------
+//  | Delete a project from Gallery & database              |
+//  ---------------------------------------------------------
 
 document.querySelector('main').addEventListener('click', function(event) {
   //Vérifier si l'élément cliqué est une icône "poubelle"
