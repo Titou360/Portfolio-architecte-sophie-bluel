@@ -467,9 +467,24 @@ document.querySelector('main').addEventListener('click', function(event) {
     //Récupère l'élément figure parent correspondant
     const figure = event.target.closest('figure');
     
-    const workId = figure.dataset.id;
-    console.log(workId);
-    
-  }
+    const workId = figure.id;
+
+    fetch(`http://localhost:5678/api/works/${workId}`, {
+    method : 'DELETE',
+    headers : {
+      'Authorization' : `Bearer ${token}`
+    }
+  })
+  .then(function(response) {
+    if (response.ok) {
+      insertProjectInModal();
+    } else {
+      console.error('Erreur lors de la suppression de l\'élément');
+    }
+  })
+  .catch(function(error) {
+    console.error('Erreur lors de la suppression de l\'élément', error);
 });
+}
 });
+})
