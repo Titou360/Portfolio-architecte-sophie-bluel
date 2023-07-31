@@ -714,7 +714,7 @@ i  {
 	line-height: normal;
 	margin-top: 32px;
 	border: none;
-	cursor: pointer;
+	cursor: not-allowed;
   }
 
 .submit-photo-active {
@@ -727,13 +727,11 @@ i  {
 label[for="title"] {
 	margin-top: 30px;
     margin-bottom: 10px;
-	margin-left: 105px;
 }
 
 label[for="category"] {
 	margin-top: 21px;
 	margin-bottom: 10px;
-	margin-left: 105px;
 	
 }
 

@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const token = localStorage.getItem('token');
   //console.log('Token:', token);
 
-
   //  ---------------------------------------------------------
   //  | Management of the action for edition mod              |
   //  ---------------------------------------------------------
@@ -214,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </svg>
   
     <button class="btn-add-photo">
-      <label for="image" id="btn-add-photo">+ Ajouter photo
+      <label for="image" id="btn-add-photo">+ Ajouter photo</label>
        <input
         class="input-add-photo"
         type="file"
@@ -227,7 +226,6 @@ document.addEventListener('DOMContentLoaded', function() {
       jpg, png : 4 mo max
     </p>
 
-  </div>
 </div>
   
 <form class="container-option-photo" id="uploadForm">
@@ -242,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
     name="title"
     required>
 
-  <label for="category">
+  <label for="category" id="category">
     Catégorie
   </label>
   
@@ -270,6 +268,40 @@ document.addEventListener('DOMContentLoaded', function() {
       addPhotoModal.remove();
       destroyObstructor();
       window.location.replace('./index.html');
+
+
+  //  ---------------------------------------------------------
+  //  | Add a project in Gallery & database                   |
+  //  ---------------------------------------------------------
+  const titleInput = document.getElementById('title');
+  const categorySelect = document.getElementById('categorySelect');
+  const imageInput = document.getElementById('image');
+  const submitBtn = document.getElementById('submitBtn');
+
+function checkFormFields() {
+  const isTitleFilled = titleInput.value.trim() !== '';
+  const isCategorySelected = categorySelect.value !== '';
+  const isImageSelected = imageInput.files && imageInput.files.length > 0;
+
+// Ajouter les événements d'écoute aux éléments
+titleInput.addEventListener('input', checkFormFields);
+categorySelect.addEventListener('change', checkFormFields);
+imageInput.addEventListener('change', checkFormFields);
+
+  // Si les trois champs sont remplis, activer le bouton "Valider"
+  if (isTitleFilled && isCategorySelected && isImageSelected) {
+    console.log("Tous les champs sont remplis. Activer le bouton 'Valider'");
+    submitBtn.classList.remove('submit-photo-inactive');
+    submitBtn.classList.add('submit-photo-active');
+  } else {
+    console.log("Un ou plusieurs champs ne sont pas remplis. Désactiver le bouton 'Valider'");
+    submitBtn.classList.remove('submit-photo-active');
+    submitBtn.classList.add('submit-photo-inactive');
+  }
+}
+
+
+
     });
 
   //  ---------------------------------------------------------
@@ -283,25 +315,26 @@ document.addEventListener('DOMContentLoaded', function() {
       const imageElement = document.createElement('img');
       imageElement.src = imageURL;
       imageElement.id = 'imageStore';
-      imageElement.classList.add('clickable'); // Ajoutez une classe pour rendre l'image cliquable
-  
+      // Add a class for image becoming clickable
+      imageElement.classList.add('clickable'); 
       const existingInput = document.querySelector('.bluerectangle input');
       if (existingInput) {
         existingInput.remove();
       }
   
       const bluerectangleDiv = document.querySelector('.bluerectangle');
-      bluerectangleDiv.innerHTML = ''; // Supprimez le contenu existant
+      bluerectangleDiv.innerHTML = '';
   
       bluerectangleDiv.appendChild(imageElement);
   
-      // Créez un nouvel input à la fin de la div .bluerectangle
+     // Create a new element 'input' at the end of the .blerectangle div
       const newInputElement = document.createElement('input');
+
       newInputElement.className = 'input-add-photo';
       newInputElement.type = 'file';
       newInputElement.id = 'image';
       newInputElement.name = 'image';
-      newInputElement.accept = 'image/png, image/jpg','image/jpeg';
+      newInputElement.accept = 'image/png, image/jpg';
   
       bluerectangleDiv.appendChild(newInputElement);
   
@@ -312,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
   
-      // Ajoutez un gestionnaire d'événement au clic sur l'image pour ouvrir l'input
+      // Add an EventListener by clicking on image to open the new input
       imageElement.addEventListener('click', function () {
         destroyLastElement();
         newInputElement.click();
@@ -360,6 +393,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   }
+
+
+
 
 
   //  ---------------------------------------------------------
@@ -454,16 +490,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let containerElement = document.querySelector('.gallery');
     containerElement.appendChild(figureElement);
   }
-
-
-//  ---------------------------------------------------------
-//  | Add a project from Gallery & database                 |
-//  ---------------------------------------------------------
-const submitBtn = document.querySelector('#submitBtn');
-  submitBtn.addEventListener('click', () => {
-  console.log('Vous avez cliqué sur Valider');
-});
-
 
 
 //  ---------------------------------------------------------
