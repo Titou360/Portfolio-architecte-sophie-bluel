@@ -1,19 +1,13 @@
-
-Nom de l'élève : Clément FELICES
-
-Formation : Intégrateur Web
-
-École : OpenClassRooms Promotion : 2023
-
-# Projet 6 : Créez une page web dynamique avec JavaScript
+# Créez une page web dynamique avec JavaScript
 Date du projet : Juillet 2023
 
 
 Sophie Bluel: Architecte d'intérieur
 
-[./assets/images/capture/capture.png]
 
-Description
+[./FrontEnd/assets/images/capture/capture.png]
+
+### Description
 Projet 6 du parcours Intégrateur Web de chez OpenClassrooms
 
 L'objectif était de créez une page web dynamique avec JavaScript
@@ -33,7 +27,7 @@ Gérer les événements utilisateurs avec JavaScript
 
  
 
-Installation du backend
+### Installation du backend
 Cloner le repo en local
 
 Se placer dans le dossier Backend
@@ -63,15 +57,25 @@ la page de connexion de l'administrateur du site
 
 la modale permettant d'uploader de nouveaux médias
 
-Liens 
-Repo : https://github.com/Titou360/Portfolio-architecte-sophie-bluel
+
+## 📄 Support
+Liens Repo : https://github.com/Titou360/Portfolio-architecte-sophie-bluel
 
 GitPages : https://titou360.github.io/Portfolio-architecte-sophie-bluel/FrontEnd/index.html
 
 
 
 
-## Support
+## 📚 Authors
+Nom de l'élève : Clément FELICES
+- [@Titou360](https://github.com/Titou360)
 
-Pour toute question, merci de me contacter
+
+## 🚀 About Me
+Étudiant en formation : Intégrateur Web École auprès d'OpenClassRooms (Promotion : 2023).
+
+
+## 🔗 Links
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/Titou360)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/cl%C3%A9ment-felices-30784425a/)
 
