@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </form>
 
 <div class="modal-option">
-  <button id="submitBtn" class= "submit-photo-inactive" type="submit" >
+  <button id="submitBtn" class= "submit-photo-active" type="submit" >
     Valider
   </button>
 </div>
