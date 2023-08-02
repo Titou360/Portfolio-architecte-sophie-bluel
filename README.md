@@ -4,9 +4,6 @@ Date du projet : Juillet 2023
 
 Sophie Bluel: Architecte d'intérieur
 
-
-[FrontEnd/assets/images/capture/capture.png]
-
 ### Description
 Projet 6 du parcours Intégrateur Web de chez OpenClassrooms
 
