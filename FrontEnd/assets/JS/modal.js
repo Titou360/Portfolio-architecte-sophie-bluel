@@ -101,7 +101,6 @@ let titleInput;
       }
     }
 
-
   async function createAddPhotoModal() {
       const addPhotoModal = document.createElement('div');
       addPhotoModal.classList.add('modale-add')
@@ -173,10 +172,12 @@ let titleInput;
     const parent = document.querySelector('main');
       parent.appendChild(addPhotoModal);
 
+
       // Management for the "X" to close modal
       addPhotoModal.querySelector('.close-modale').addEventListener('click', () => {
       addPhotoModal.remove();
       destroyObstructor();
+      window.location.replace('./index.html');
       });
 
       // Management for the arrow-left to go back
@@ -330,7 +331,11 @@ let titleInput;
       }
     }
     }
-
+  
+  function destroyAddPhotoModal() {
+      const modale = document.querySelector('div.modale');
+      modale.remove();
+    }
 
   function checkFormFields() {
     const titleInput = document.getElementById('title');
