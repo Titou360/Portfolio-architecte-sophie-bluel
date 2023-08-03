@@ -139,7 +139,7 @@ async function getCategories () {
         genererFigure(projet);
       });
 
-      // 
+      // Create the categories from Api
 
       const categories = new Set();
       categories.add('Tous');

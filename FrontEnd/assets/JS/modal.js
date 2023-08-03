@@ -1,4 +1,15 @@
 let titleInput;
+
+let categorySelect;
+
+let imageInput;
+
+let garbageIt;
+
+let addPhotoModal;
+
+// messages for image size or error when selecting
+const infoFile = document.querySelector("#info-file");
 //  ---------------------------------------------------------
   //  | Management for the Modal                              |
   //  ---------------------------------------------------------
@@ -70,39 +81,42 @@ let titleInput;
       try {
         const data = await getWorks();
         const galleryModal = document.querySelector('.gallery-modal');
-    
+
         data.forEach(projet => {
           const imgContainer = document.createElement('figure');
           imgContainer.classList.add('container-modal');
-    
+
           const imgElement = document.createElement('img');
           imgElement.src = projet.imageUrl;
           imgElement.alt = projet.title;
           imgContainer.id = projet.id;/**/
           imgContainer.appendChild(imgElement);
-    
+
           const editButton = document.createElement('button');
           editButton.textContent = 'éditer';
           editButton.className = 'btn-edit-modal';
           imgContainer.appendChild(editButton);
-  
-          const garbageIt = document.createElement('i');
-          garbageIt.className = "garbageit";
+
+          garbageIt = document.createElement('i');
+          garbageIt.className = "garbageit fa-trash-can";
           imgContainer.appendChild(garbageIt);
-  
+
           const moveIt = document.createElement('i');
           moveIt.className = "moveit";
           imgContainer.appendChild(moveIt);
-  
+
           galleryModal.appendChild(imgContainer);
+
+          deleteProject(garbageIt);
         });
+
       } catch (error) {
         console.log("Une erreur s'est produite lors de la récupération des données de l'API :", error);
       }
     }
 
   async function createAddPhotoModal() {
-      const addPhotoModal = document.createElement('div');
+      addPhotoModal = document.createElement('div');
       addPhotoModal.classList.add('modale-add')
       addPhotoModal.innerHTML = `
         <button class="backtopreviousmodal">
@@ -133,17 +147,20 @@ let titleInput;
             type="file"
             id="image"
             name="image"
-            accept="image/png, image/jpg">
+            accept="image/png, image/jpg, image/jpeg"
+            size="4194304"
+            required
+          >
         </button>
 
-        <p class="info-img">
+        <p class="info-img info-file">
           jpg, png : 4 mo max
         </p>
 
       </div>
   
       <form class="container-option-photo" id="uploadForm">
-        <label for="title" required>
+        <label for="title">
           Titre
         </label>
 
@@ -152,18 +169,23 @@ let titleInput;
           type="text"
           id="title"
           name="title"
-          required>
+          required
+          disabled >
 
         <label for="category" id="category">
           Catégorie
         </label>
   
-        <select id="categorySelect" name="category" class="option-photo-input" required>
+        <select id="categorySelect"
+          name="category"
+          class="option-photo-input"
+          required
+          disabled >
         </select>
      </form>
 
       <div class="modal-option">
-        <button id="submitBtn" type="submit" class="btn-submit-photo-inactive">
+        <button id="submitBtn" type="submit" disabled>
           Valider
         </button>
       </div>
@@ -187,60 +209,29 @@ let titleInput;
         })
 
     document.getElementById('submitBtn').addEventListener('click', async function () {
-    console.log('vous avez cliqué sur submitBTN');
+      previewNewWork();
+      sendWorksToAPI();
 
+      console.log('Vous avez cliqué sur submitBtn');
 
-  // Management for the sending photo by form 
-  titleInput = document.getElementById('title');
-  const categorySelect = document.getElementById('categorySelect');
-  const imageInput = document.getElementById('image');
-
-
-  // Vérifier si les champs sont remplis
-  if (!imageInput.files || imageInput.files.length === 0 || titleInput.value.trim() === '' || categorySelect.value === '') {
-    console.error("Tous les champs doivent être remplis");
-    return;
-  }
-
-  // Créer un nouvel objet FormData
-  const formData = new FormData(formElement);
-  const formElement = document.getElementById('uploadForm');
-
-  // Ajouter les valeurs des champs au FormData
-  formData.append('image', imageInput.files[0]);
-  formData.append('title', titleInput.value);
-  formData.append('categoryId', parseInt(categorySelect.value)); // Convertir la catégorie en entier
-  
-
-  try {
-    // Envoyer les données à l'API
-    const responseData = await sendDataToAPI(formData);
-    console.log('Données envoyées avec succès :', responseData);
-    
-    // Réinitialiser le formulaire après l'envoi des données
-    titleInput.value = '';
-    categorySelect.selectedIndex = 0;
-    imageInput.value = '';
-    // Afficher un message de succès ou rediriger vers une autre page si nécessaire
-    alert('Projet ajouté avec succès !');
-  } catch (error) {
-    console.error('Une erreur s\'est produite lors de l\'envoi des données à l\'API :', error);
-  }
     });
+
 
 
   //  ---------------------------------------------------------
   //  | Add a project in Gallery & database                   |
   //  ---------------------------------------------------------
-    const categorySelect = document.getElementById('categorySelect');
-    const imageInput = document.getElementById('image');
-    const titleInput = document.getElementById('title');
+    categorySelect = document.getElementById('categorySelect');
+    imageInput = document.getElementById('image');
+    titleInput = document.getElementById('title');
 
 
 // Ajouter les événements d'écoute aux éléments
     titleInput.addEventListener('input', checkFormFields);
     categorySelect.addEventListener('change', checkFormFields);
     imageInput.addEventListener('change', checkFormFields);
+
+
 
 // Appel initial pour vérifier l'état du bouton lors du chargement de la page
     checkFormFields();
@@ -285,6 +276,7 @@ let titleInput;
           lastElement.remove();
         }
       }
+      
   
       // Add an EventListener by clicking on image to open the new input
       imageElement.addEventListener('click', function () {
@@ -333,7 +325,37 @@ let titleInput;
       }
   }
     }
+
+  function deleteProject(garbageIcon) {
+    garbageIcon.addEventListener('click', async function () {
+      console.log('vous avez cliqué sur trashicon');
+      const projectId = garbageIcon.parentElement.id;
+      try {
+        // Appeler l'API de suppression avec le token d'authentification
+        const response = await fetch(`http://localhost:5678/api/works/${projectId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+        });
   
+        if (!response.ok) {
+          throw new Error('Une erreur s\'est produite lors de la suppression du projet');
+        }
+  
+        // Si la suppression réussit, vous pouvez peut-être mettre à jour la galerie ou effectuer d'autres actions nécessaires.
+        console.log('Projet supprimé avec succès');
+  
+        // Supprimer l'élément d'image de la galerie
+        const imageContainer = garbageIcon.parentElement;
+        imageContainer.remove();
+      } catch (error) {
+        console.error('Une erreur s\'est produite lors de la suppression du projet:', error);
+      }
+    });
+  }
+
+
   function destroyAddPhotoModal() {
       const modale = document.querySelector('div.modale');
       modale.remove();
@@ -341,13 +363,13 @@ let titleInput;
 
   function checkFormFields() {
     titleInput = document.getElementById('title');
-    const categorySelect = document.getElementById('categorySelect');
-    const imageInput = document.getElementById('image');
+    categorySelect = document.getElementById('categorySelect');
+    imageInput = document.getElementById('image');
 
     const isImageSelected = imageInput.files && imageInput.files.length > 0;
     const isTitleFilled = titleInput.value.trim() !== '';
     const isCategorySelected = categorySelect.value !== '';
-    
+  
 
     function activateSubmitBtn() {
       submitBtn.removeAttribute('disabled');
@@ -357,41 +379,197 @@ let titleInput;
       submitBtn.setAttribute('disabled', 'disabled');
     }
 
+    function activateTitleInput () {
+      titleInput.removeAttribute('disabled');
+    }
+
+    function desactivateTitleInput() {
+      submitBtn.setAttribute('disabled', 'disabled');
+    }
+
+    function activateCategorySelect () {
+      categorySelect.removeAttribute('disabled');
+    }
+
+    function desactivateCategorySelect () {
+      categorySelect.setAttribute('disabled', 'disabled');
+    }
+
+    if (isImageSelected) {
+      activateTitleInput();
+    }
+
+    if (isTitleFilled) {
+      activateCategorySelect ();
+    }
         // Si les trois champs sont remplis, activer le bouton "Valider"
-    if (isImageSelected && isTitleFilled && isCategorySelected) {
-      console.log("Tous les champs sont remplis. Activer le bouton 'Valider'");
+       if (imageInput.files && isTitleFilled && isCategorySelected) {
+      console.log("TEST Tous les champs sont remplis. Activer le bouton 'Valider'");
       activateSubmitBtn();
     } else {
       console.log("Un ou plusieurs champs ne sont pas remplis. Désactiver le bouton 'Valider'");
       desactivateSubmitBtn();
       }
   }
+
+  let imageUploaded;
+
+  /*function previewNewWork() {
+    const fileSize = imageInput.files[0].size;
+    imageUploaded = imageInput.files[0];
+    const fileExtensionRegex = /\.(jpe?g|png)$/i;
+
+    if (!fileExtensionRegex.test(imageInput.files[0].name)) {
+      infoFile.innerHTML = "Le fichier n'est pas au format jp(e)g ou png";
+      infoFileNotOk();
+      return;
+    }
+
+    if (fileSize > 4194304) { //4*1024*1024
+      infoFile.innerHTML = "Le fichier image fait plus de 4 mo";
+      infoFileNotOk();
+      return;
+    }
+  }*/
+
+  /**** Reset "error message" ****/
+  function errorMessageRemove() {
+  errorMessage.style.display = "none";
+  errorMessage.innerHTML = " ";
+  }
+
+  /**** Message if file is too large or not good extension ****/
+  function infoFileNotOk() {
+    infoFile.classList.remove("info-file");
+    infoFile.classList.add("info-file-is-not-ok");
+    fileUploadInput.value = "";
+  }
+
+
+  // function to reset bluerectangle ??
+
+
+  /*function createFormData() {
+        // Management for the sending photo by form 
+        titleInput = document.getElementById('title');
+        categorySelect = document.getElementById('categorySelect');
+        imageInput = document.getElementById('image');
+
+        const formData = new FormData();
+        formData.append('image', imageInput.files[0]);
+        formData.append('title', titleInput.value);
+        formData.append('categoryId', parseInt(categorySelect.value)); 
+
+
+        try {
+        // Envoyer les données à l'API
+        const responseData = sendWorksToAPI(formData);
+        console.log('Données envoyées avec succès :', responseData);
+
+        // Réinitialiser le formulaire après l'envoi des données
+        titleInput.value = '';
+        categorySelect.selectedIndex = 0;
+        imageInput.value = '';
+        // Afficher un message de succès ou rediriger vers une autre page si nécessaire
+        alert('Projet ajouté avec succès !');
+      } catch (error) {
+        console.error('Une erreur s\'est produite lors de l\'envoi des données à l\'API :', error);
+      }
+        return;
+    }*/
+
+
 // ---------------------------------------------
 // | Send works to the API                     |
 // ---------------------------------------------
 
+  function sendWorksToAPI() {
+      const formData = new FormData();
+      formData.append("image", imageUploaded);
+      formData.append("title", title.value);
+      formData.append("category", category.value);
 
-    async function sendWorksToAPI(formData) {
-    try  {
-        const response = await fetch(url, {
-          method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
+
+      fetch(url, {
+          method :"POST",
+          headers: {
+            'Authorization' : `Bearer ${token}`
         },
-        body: formData
+          body: formData,
+        })
+        .then(function (response) {
+          if (response.status === 201) {
+            //add a new work in gallery();
+            // add a new work in modal ();
+            errorMessage.style.display = 'flex';
+            errorMessage.innerHTML = `Votre projet ${title.value} est ajouté !`;
+            category.value = "";
+            title.value = "";
+            submitBtn.disabled = true;
+            setTimeout(reset/*???*/, 2000);
+            setTimeout(addPhotoModal, 2000);
+          } else if (response.status === 400) {
+            // response 400, not all fields are filled in
+            submitBtn.disabled = true;
+            errorMessage.style.display = "flex";
+            errorMessage.innerHTML = "Veuillez compléter tous les champs.";
+            category.value = " ";
+            title.value = " ";
+            setTimeout(errorMessageRemove, 3000);
+          } else {
+            // other answers
+            buttonValidatePhoto.disabled = true;
+            errorMessage.style.display = "flex";
+            errorMessage.innerHTML = "Problème de connexion avec l'API, contacter votre administrateur.";
+          }
         });
 
         if (!response.ok) {
             throw new Error("Erreur lors de la récupération des données");
         }
-       const data = await response.json();
+  /*     const data = await response.json();
        return data;
     }  catch (error) {
         console.error(error);
         throw error;
-    }
-}
+    }*/
+  }
 
+// ---------------------------------------------
+// | Delete works in the API                     |
+// ---------------------------------------------
+
+/*  // Ajouter un gestionnaire d'événements pour chaque icône de corbeille dans la galerie
+    const trashCanIcons = document.querySelectorAll('.fa-trash-can');
+    trashCanIcons.forEach(trashCanIcon => {
+      trashCanIcon.addEventListener('click', (event) => {
+        // Récupérer l'identifiant de l'image à supprimer
+        const imageId = event.target.previousSibling.dataset.imageId;
+
+        // Appeler l'API de suppression avec le token d'authentification
+  fetch('http://localhost:5678/api/works/${imageId}', {
+  method: 'DELETE',
+  headers: {
+    'Authorization': `Bearer ${token}`
+  },
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Une erreur sest produite lors de la suppression de limage');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // La suppression a réussi, vous pouvez peut-être mettre à jour la galerie ou effectuer d'autres actions nécessaires.
+    console.log('Image supprimée avec succès:', data);
+
+    // Supprimer l'élément d'image de la galerie
+    const imageContainer = event.target.parentElement;
+    imageContainer.remove();
+  })
+  .catch(error => {
+    console.error('Une erreur sest produite lors de la suppression de limage:', error);
+  });*/
 
 // ---------------------------------------------
 // | Links for all the modify btn               |
@@ -405,16 +583,10 @@ let titleInput;
   document.querySelector('#btn-modal-profil').addEventListener('click', () => {
     const message = "En cours de développement ⏳ !";
     alert(message);
-  });
+    });
 
   /*modale.querySelector('#suppr-gallery').addEventListener('click', () => {
     const message = "En cours de développement ⏳ !";
     alert(message);
   });*/
-
-
-
-// ---------------------------------------------
-// | Back and Close functions in modal         |
-// ---------------------------------------------
 

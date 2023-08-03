@@ -229,7 +229,11 @@ footer nav ul {
 
 a {
 	text-decoration: none;
-	cursor: pointer;
+	cursor: text;
+}
+
+a:link {
+	color : black
 }
 
 a:visited {
@@ -287,7 +291,7 @@ label[for="password"] {
 	margin-top: 30px;
 }
 
-lable[for="email"] {
+label[for="email"] {
 	margin-bottom: 7px;
 }
 
@@ -601,7 +605,7 @@ lable[for="email"] {
 .title-modal-projects {
 	margin-bottom : 36px;
 }
-  
+
 i  {
 	font-family: "Font Awesome 5 Free" ;
 	content : "\f2ed";
@@ -631,6 +635,10 @@ i  {
 	display : flex;
 	flex-direction : column;
 	align-items : center;
+}
+
+label[for="image"] {
+	cursor: pointer;
 }
 
   svg {
@@ -737,7 +745,8 @@ i  {
 	border: none;
 	font-family: 'Syne';
 	font-weight: 700;
-	margin : 2em auto ;
+	margin : 2em auto;
+	margin-top: 32px;
 }
 
 label[for="title"] {
@@ -801,4 +810,27 @@ select[container-option]:active {
 	object-fit: cover;
 	cursor: pointer;
 }
+
+.info-file {
+	margin-top: 7px;
+	font-family: "work sans", sans-serif;
+  }
+
+.info-file-is-ok {
+	color: #444444;
+	background: none;
+	font-size: 10px;
+	font-weight: 400;
+	padding: 0;
+	border-radius: 0;
+  }
+
+.info-file-is-not-ok {
+	color: crimson;
+	font-size: 18px;
+	font-weight: 700;
+	background: #ffffff;
+	padding: 10px;
+	border-radius: 5px;
+  }
 
