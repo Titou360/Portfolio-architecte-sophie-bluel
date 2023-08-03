@@ -163,7 +163,7 @@ let titleInput;
      </form>
 
       <div class="modal-option">
-        <button id="submitBtn" type="submit">
+        <button id="submitBtn" type="submit" class="btn-submit-photo-inactive">
           Valider
         </button>
       </div>
@@ -189,13 +189,15 @@ let titleInput;
     document.getElementById('submitBtn').addEventListener('click', async function () {
     console.log('vous avez cliqué sur submitBTN');
 
+
+  // Management for the sending photo by form 
   titleInput = document.getElementById('title');
   const categorySelect = document.getElementById('categorySelect');
   const imageInput = document.getElementById('image');
 
 
   // Vérifier si les champs sont remplis
-  if (titleInput.value.trim() === '' || categorySelect.value === '' || !imageInput.files || imageInput.files.length === 0) {
+  if (!imageInput.files || imageInput.files.length === 0 || titleInput.value.trim() === '' || categorySelect.value === '') {
     console.error("Tous les champs doivent être remplis");
     return;
   }
@@ -305,9 +307,9 @@ let titleInput;
   //  ---------------------------------------------------------
   //  |Management for the categories in the "add photo modal" |
   //  ---------------------------------------------------------
-    const categoriesData = await fetchCategories();
+  const categoriesData = await fetchCategories();
 
-    const option1 = document.createElement('option');
+  const option1 = document.createElement('option');
     categorySelect.appendChild(option1);
 
     categoriesData.forEach(category => {
@@ -317,7 +319,7 @@ let titleInput;
       categorySelect.appendChild(option);
     });
 
-    async function fetchCategories() {
+  async function fetchCategories() {
       try {
         const response = await fetch('http://localhost:5678/api/categories');
           if (!response.ok) {
@@ -329,7 +331,7 @@ let titleInput;
         console.error(error);
         throw error;
       }
-    }
+  }
     }
   
   function destroyAddPhotoModal() {
@@ -338,7 +340,7 @@ let titleInput;
     }
 
   function checkFormFields() {
-    const titleInput = document.getElementById('title');
+    titleInput = document.getElementById('title');
     const categorySelect = document.getElementById('categorySelect');
     const imageInput = document.getElementById('image');
 
@@ -356,7 +358,7 @@ let titleInput;
     }
 
         // Si les trois champs sont remplis, activer le bouton "Valider"
-    if (isTitleFilled && isCategorySelected && isImageSelected) {
+    if (isImageSelected && isTitleFilled && isCategorySelected) {
       console.log("Tous les champs sont remplis. Activer le bouton 'Valider'");
       activateSubmitBtn();
     } else {

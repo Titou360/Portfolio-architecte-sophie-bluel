@@ -181,7 +181,7 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"], .submit-photo-active{
+input[type="submit"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -699,7 +699,7 @@ i  {
   }
 
 
-  .submit-photo-inactive {
+  #submitBtn:disabled {
 	width: 237px;
 	height: 36px;
 	flex-shrink: 0;
@@ -707,7 +707,7 @@ i  {
 	background: #A7A7A7;
 	color: #FFF;
 	text-align: center;
-	font-family: Syne;
+	font-family: 'Syne';
 	font-size: 14px;
 	font-style: normal;
 	font-weight: 700;
@@ -717,13 +717,29 @@ i  {
 	cursor: not-allowed;
   }
 
-.submit-photo-active {
-	padding: 10px 49px 9px 49px;
+#submitBtn {
 	width: 237px;
 	height: 36px;
+	flex-shrink: 0;
+	border-radius: 60px ;
+	background-color: #1D6154;
+	color: #FFF;
+	text-align: center;
+	font-family: 'Syne';
+	font-size: 14px;
+	font-weight: 700;
 	cursor: pointer;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	margin-top: 32px;
+	border: none;
+	font-family: 'Syne';
+	font-weight: 700;
+	margin : 2em auto ;
 }
-  
+
 label[for="title"] {
 	margin-top: 30px;
     margin-bottom: 10px;
