@@ -606,10 +606,16 @@ label[for="email"] {
 	margin-bottom : 36px;
 }
 
-i  {
+.fa-arrow-left {
+	content : "\f060";
 	font-family: "Font Awesome 5 Free" ;
-	content : "\f2ed";
-	font-weight: 200; 
+	font-size: 14px;
+	font-weight: 800; 
+	color: black;
+	width: 21px;
+	height: 21px;
+	
+	
 }
 
 .backtopreviousmodal {
@@ -747,12 +753,13 @@ label[for="image"] {
 label[for="title"] {
 	margin-top: 30px;
     margin-bottom: 10px;
+	margin-left: 95px;
 }
 
 label[for="category"] {
 	margin-top: 21px;
 	margin-bottom: 10px;
-	
+	margin-left: 95px;
 }
 
 option {
@@ -820,12 +827,13 @@ select[container-option]:active {
 	border-radius: 0;
   }
 
-.info-file-is-not-ok {
+#info-file-is-not-ok {
 	color: crimson;
-	font-size: 18px;
+	font-size: 14px;
 	font-weight: 700;
 	background: #ffffff;
-	padding: 10px;
+	padding: 5px;
 	border-radius: 5px;
+	text-align: center;
   }
 
