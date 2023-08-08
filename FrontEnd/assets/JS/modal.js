@@ -252,6 +252,8 @@ const infoFile = document.querySelector("#info-file");
           imageElement.classList.add('clickable'); 
           const existingInput = document.querySelector('.bluerectangle input');
 
+          imageUploaded = selectedImage;
+
         if (existingInput) {
           existingInput.remove();
         }
@@ -424,6 +426,26 @@ const infoFile = document.querySelector("#info-file");
     fileUploadInput.value = "";
   }
 
+
+  // ---------------------------------------------
+// | Links for all the modify btn               |
+// ---------------------------------------------
+
+document.querySelector('#btn-modal-projects').addEventListener('click', () => {
+  createObstructor();
+  createModale();
+  });
+
+document.querySelector('#btn-modal-profil').addEventListener('click', () => {
+  const message = "En cours de développement ⏳ !";
+  alert(message);
+  });
+
+/*modale.querySelector('#suppr-gallery').addEventListener('click', () => {
+  const message = "En cours de développement ⏳ !";
+  alert(message);
+});*/
+
 // ---------------------------------------------
 // | Send works to the API                     |
 // ---------------------------------------------
@@ -432,7 +454,7 @@ const infoFile = document.querySelector("#info-file");
       const formData = new FormData();
       formData.append("image", imageUploaded);
       formData.append("title", title.value);
-      formData.append("category", category.value);
+      formData.append("category", categorySelect.value);
 
 
       fetch('http://localhost:5678/api/works', {
@@ -474,21 +496,3 @@ const infoFile = document.querySelector("#info-file");
         });
   }
 
-// ---------------------------------------------
-// | Links for all the modify btn               |
-// ---------------------------------------------
-
-  document.querySelector('#btn-modal-projects').addEventListener('click', () => {
-    createObstructor();
-    createModale();
-    });
-
-  document.querySelector('#btn-modal-profil').addEventListener('click', () => {
-    const message = "En cours de développement ⏳ !";
-    alert(message);
-    });
-
-  /*modale.querySelector('#suppr-gallery').addEventListener('click', () => {
-    const message = "En cours de développement ⏳ !";
-    alert(message);
-  });*/
