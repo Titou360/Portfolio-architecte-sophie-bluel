@@ -665,12 +665,7 @@ label[for="image"] {
 	opacity : 0;
   }
   
-  .info-img {
-	margin-top : 7px;
-	margin-bottom: 19px;
 
-  }
-  
   #btn-add-photo {
 	width: 173px;
 	height: 36px;
@@ -806,12 +801,12 @@ select[container-option]:active {
 
 #imageStore {
 	width: 129px ;
-	height: 193px;
+	height: 170px;
 	object-fit: cover;
 	cursor: pointer;
 }
 
-.info-file {
+#info-file {
 	margin-top: 7px;
 	font-family: "work sans", sans-serif;
   }
@@ -819,7 +814,7 @@ select[container-option]:active {
 .info-file-is-ok {
 	color: #444444;
 	background: none;
-	font-size: 10px;
+	font-size: 14px;
 	font-weight: 400;
 	padding: 0;
 	border-radius: 0;

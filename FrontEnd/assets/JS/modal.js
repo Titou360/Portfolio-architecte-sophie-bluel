@@ -1,3 +1,5 @@
+  // function to reset bluerectangle ??
+
 let titleInput;
 
 let categorySelect;
@@ -153,7 +155,7 @@ const infoFile = document.querySelector("#info-file");
           >
         </button>
 
-        <p class="info-img info-file">
+        <p class="info-img" id="info-file">
           jpg, png : 4 mo max
         </p>
 
@@ -209,7 +211,6 @@ const infoFile = document.querySelector("#info-file");
         })
 
     document.getElementById('submitBtn').addEventListener('click', async function () {
-      previewNewWork();
       sendWorksToAPI();
 
       console.log('Vous avez cliqué sur submitBtn');
@@ -326,6 +327,10 @@ const infoFile = document.querySelector("#info-file");
   }
     }
 
+// ---------------------------------------------
+// | Delete works in the API                   |
+// ---------------------------------------------
+
   function deleteProject(garbageIcon) {
     garbageIcon.addEventListener('click', async function () {
       console.log('vous avez cliqué sur trashicon');
@@ -383,16 +388,8 @@ const infoFile = document.querySelector("#info-file");
       titleInput.removeAttribute('disabled');
     }
 
-    function desactivateTitleInput() {
-      submitBtn.setAttribute('disabled', 'disabled');
-    }
-
     function activateCategorySelect () {
       categorySelect.removeAttribute('disabled');
-    }
-
-    function desactivateCategorySelect () {
-      categorySelect.setAttribute('disabled', 'disabled');
     }
 
     if (isImageSelected) {
@@ -414,24 +411,6 @@ const infoFile = document.querySelector("#info-file");
 
   let imageUploaded;
 
-  /*function previewNewWork() {
-    const fileSize = imageInput.files[0].size;
-    imageUploaded = imageInput.files[0];
-    const fileExtensionRegex = /\.(jpe?g|png)$/i;
-
-    if (!fileExtensionRegex.test(imageInput.files[0].name)) {
-      infoFile.innerHTML = "Le fichier n'est pas au format jp(e)g ou png";
-      infoFileNotOk();
-      return;
-    }
-
-    if (fileSize > 4194304) { //4*1024*1024
-      infoFile.innerHTML = "Le fichier image fait plus de 4 mo";
-      infoFileNotOk();
-      return;
-    }
-  }*/
-
   /**** Reset "error message" ****/
   function errorMessageRemove() {
   errorMessage.style.display = "none";
@@ -445,40 +424,6 @@ const infoFile = document.querySelector("#info-file");
     fileUploadInput.value = "";
   }
 
-
-  // function to reset bluerectangle ??
-
-
-  /*function createFormData() {
-        // Management for the sending photo by form 
-        titleInput = document.getElementById('title');
-        categorySelect = document.getElementById('categorySelect');
-        imageInput = document.getElementById('image');
-
-        const formData = new FormData();
-        formData.append('image', imageInput.files[0]);
-        formData.append('title', titleInput.value);
-        formData.append('categoryId', parseInt(categorySelect.value)); 
-
-
-        try {
-        // Envoyer les données à l'API
-        const responseData = sendWorksToAPI(formData);
-        console.log('Données envoyées avec succès :', responseData);
-
-        // Réinitialiser le formulaire après l'envoi des données
-        titleInput.value = '';
-        categorySelect.selectedIndex = 0;
-        imageInput.value = '';
-        // Afficher un message de succès ou rediriger vers une autre page si nécessaire
-        alert('Projet ajouté avec succès !');
-      } catch (error) {
-        console.error('Une erreur s\'est produite lors de l\'envoi des données à l\'API :', error);
-      }
-        return;
-    }*/
-
-
 // ---------------------------------------------
 // | Send works to the API                     |
 // ---------------------------------------------
@@ -490,7 +435,7 @@ const infoFile = document.querySelector("#info-file");
       formData.append("category", category.value);
 
 
-      fetch(url, {
+      fetch('http://localhost:5678/api/works', {
           method :"POST",
           headers: {
             'Authorization' : `Bearer ${token}`
@@ -506,70 +451,28 @@ const infoFile = document.querySelector("#info-file");
             category.value = "";
             title.value = "";
             submitBtn.disabled = true;
-            setTimeout(reset/*???*/, 2000);
-            setTimeout(addPhotoModal, 2000);
-          } else if (response.status === 400) {
+            } else if (response.status === 400) {
             // response 400, not all fields are filled in
             submitBtn.disabled = true;
             errorMessage.style.display = "flex";
             errorMessage.innerHTML = "Veuillez compléter tous les champs.";
             category.value = " ";
             title.value = " ";
-            setTimeout(errorMessageRemove, 3000);
           } else {
             // other answers
             buttonValidatePhoto.disabled = true;
             errorMessage.style.display = "flex";
             errorMessage.innerHTML = "Problème de connexion avec l'API, contacter votre administrateur.";
           }
+          return response.json(); // Ajoutez cette ligne pour obtenir les données JSON
+        })
+        .then(function (data) {
+          // Utilisez les données JSON ici si nécessaire
+        })
+        .catch(function (error) {
+          console.error(error);
         });
-
-        if (!response.ok) {
-            throw new Error("Erreur lors de la récupération des données");
-        }
-  /*     const data = await response.json();
-       return data;
-    }  catch (error) {
-        console.error(error);
-        throw error;
-    }*/
   }
-
-// ---------------------------------------------
-// | Delete works in the API                     |
-// ---------------------------------------------
-
-/*  // Ajouter un gestionnaire d'événements pour chaque icône de corbeille dans la galerie
-    const trashCanIcons = document.querySelectorAll('.fa-trash-can');
-    trashCanIcons.forEach(trashCanIcon => {
-      trashCanIcon.addEventListener('click', (event) => {
-        // Récupérer l'identifiant de l'image à supprimer
-        const imageId = event.target.previousSibling.dataset.imageId;
-
-        // Appeler l'API de suppression avec le token d'authentification
-  fetch('http://localhost:5678/api/works/${imageId}', {
-  method: 'DELETE',
-  headers: {
-    'Authorization': `Bearer ${token}`
-  },
-})
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Une erreur sest produite lors de la suppression de limage');
-    }
-    return response.json();
-  })
-  .then(data => {
-    // La suppression a réussi, vous pouvez peut-être mettre à jour la galerie ou effectuer d'autres actions nécessaires.
-    console.log('Image supprimée avec succès:', data);
-
-    // Supprimer l'élément d'image de la galerie
-    const imageContainer = event.target.parentElement;
-    imageContainer.remove();
-  })
-  .catch(error => {
-    console.error('Une erreur sest produite lors de la suppression de limage:', error);
-  });*/
 
 // ---------------------------------------------
 // | Links for all the modify btn               |
@@ -589,4 +492,3 @@ const infoFile = document.querySelector("#info-file");
     const message = "En cours de développement ⏳ !";
     alert(message);
   });*/
-
