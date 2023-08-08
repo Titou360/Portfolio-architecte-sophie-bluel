@@ -1,4 +1,5 @@
-  // function to reset bluerectangle ??
+  // Reste à finir : retour au form d'origine si clique sur annuler dans fenêtre windows choix photo
+  
   let closeButton;
 
   let categorySelect;
@@ -16,7 +17,6 @@
   // messages for image size or error when selecting
   const infoFile = document.querySelector("#info-file");
 
-  imageInput = document.getElementById('image');
 
   //  ---------------------------------------------------------
   //  | Management for the Modal fully dynamic                |
@@ -246,6 +246,13 @@
   const modalOptionDiv = document.createElement("div");
   modalOptionDiv.classList.add("modal-option");
 
+    // Créer une attente pour un message d'erreur ou d'acceptation
+  const errorMessage = document.createElement('p');
+  errorMessage.style.display = "none";
+  errorMessage.id = "info-file", "info-file-is-ok";
+
+  modalOptionDiv.appendChild(errorMessage);
+
     // Créer le bouton <button> avec les attributs spécifiés
   const submitButton = document.createElement("button");
   submitButton.id = "submitBtn";
@@ -293,14 +300,14 @@
 
   	// Ajouter les événements d'écoute aux éléments
   	inputTitle.addEventListener('input', checkFormFields);
-  	categorySelect.addEventListener('change', checkFormFields);
+   	categorySelect.addEventListener('change', checkFormFields);
   	imageInput.addEventListener('change', function(event) {
   		const selectedImage = imageInput.files[0];
-  		checkImageSize(selectedImage);
+  		checkImageSizeAndExtension(selectedImage);
   		checkFormFields();
   	});
 
-  	function checkImageSize(selectedImage) {
+  	function checkImageSizeAndExtension(selectedImage) {
   		if (selectedImage) {
   			const imageSizeLimit = 4 * 1024 * 1024; // 4 Mo en octets
         const validFormats = ["image/png", "image/jpeg", "image/jpg"]; 
@@ -325,7 +332,7 @@
   	//  ---------------------------------------------------------
 
   	function loadImage(event) {
-  		const selectedImage = imageInput.files[0];
+      selectedImage = imageInput.files[0];
   		if (selectedImage) {
   			const imageURL = URL.createObjectURL(selectedImage);
         console.log('Selected Image URL:', imageURL);
@@ -334,11 +341,14 @@
   			imageElement.id = 'imageStore';
   			// Add a class for image becoming clickable
   			imageElement.classList.add('clickable');
+        inputTitle.removeAttribute('disabled');
   			const existingInput = document.querySelector('.bluerectangle input');
 
   			if (existingInput) {
   				existingInput.remove();
   			}
+
+        
 
   			const bluerectangleDiv = document.querySelector('.bluerectangle');
   			bluerectangleDiv.innerHTML = '';
@@ -450,7 +460,7 @@
   	categorySelect = document.getElementById('categorySelect');
   	imageInput = document.getElementById('image');
 
-  	const isImageSelected = imageInput.files && imageInput.files.length > 0 && imageInput.size < 4 * 1024 * 1024;
+  	const isImageSelected = imageInput.files && imageInput.files.length > 0;
   	const isTitleFilled = inputTitle.value.trim() !== '';
   	const isCategorySelected = categorySelect.value !== '';
 
@@ -496,14 +506,6 @@
   	errorMessage.innerHTML = " ";
   }
 
-  /**** Message if file is too large or not good extension ****/
-  function infoFileNotOk() {
-  	infoFile.classList.remove("info-file");
-  	infoFile.classList.add("info-file-is-not-ok");
-  	fileUploadInput.value = "";
-  }
-
-
   // ---------------------------------------------
   // | Links for all the modify btn               |
   // ---------------------------------------------
@@ -530,7 +532,7 @@
   function sendWorksToAPI() {
   	const formData = new FormData();
   	formData.append("image", selectedImage);
-  	formData.append("title", title.value);
+  	formData.append("title", inputTitle.value);
   	formData.append("category", categorySelect.value);
 
 
@@ -547,7 +549,7 @@
   				// add a new work in modal ();
   				errorMessage.style.display = 'flex';
   				errorMessage.innerHTML = `Votre projet ${title.value} est ajouté !`;
-  				category.value = "";
+  				categorySelect.value = "";
   				title.value = "";
   				submitBtn.disabled = true;
   			} else if (response.status === 400) {
@@ -559,7 +561,7 @@
   				title.value = " ";
   			} else {
   				// other answers
-  				buttonValidatePhoto.disabled = true;
+  				submitBtn.disabled = true;
   				errorMessage.style.display = "flex";
   				errorMessage.innerHTML = "Problème de connexion avec l'API, contacter votre administrateur.";
   			}

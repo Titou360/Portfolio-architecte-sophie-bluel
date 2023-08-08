@@ -818,7 +818,7 @@ select[container-option]:active {
 	font-family: "work sans", sans-serif;
   }
 
-.info-file-is-ok {
+#info-file-is-ok {
 	color: #444444;
 	background: none;
 	font-size: 14px;
