@@ -16,7 +16,7 @@
   //  ---------------------------------------------------------
   //  | Management for the token                              |
   //  ---------------------------------------------------------
-    const token = localStorage.getItem('token');
+    let token = localStorage.getItem('token');
        console.log('Token:', token);
 
   //  ---------------------------------------------------------
@@ -40,7 +40,6 @@
           sessionStorage.clear();
           localStorage.removeItem('token');
           loginLogout.textContent = 'login';
-          window.location.replace('./index.html');
       }
   }
 
@@ -305,12 +304,12 @@ async function getCategories () {
   	modale.appendChild(galleryContainer);
   	modale.appendChild(optionsContainer);
 
-  	document.querySelector('button.close-modale').addEventListener('click', () => {
+  	closeButton.addEventListener('click', () => {
   		destroyObstructor();
   		destroyModale();
   	});
 
-  	modale.querySelector('.btn-add-modal').addEventListener('click', () => {
+  	addButton.addEventListener('click', () => {
   		destroyModale();
   		createAddPhotoModal();
   	});
@@ -538,11 +537,14 @@ async function getCategories () {
   		createModale();
   	});
 
-	  document.getElementById('uploadForm').addEventListener('submit', function(event) {
-		event.preventDefault();
+	  submitButton.addEventListener('click', function(event) {
 		sendWorksToAPI();
 		createAddPhotoModal();
-		
+
+    setTimeout(() => {
+      sendWorksToAPI();
+      createAddPhotoModal();
+    }, 3000);
 	});
 
 
@@ -774,7 +776,7 @@ async function getCategories () {
   // ---------------------------------------------
   // | Links to enter in modal                   |
   // ---------------------------------------------
-  document.querySelector('#btn-modal-projects').addEventListener('click', () => {
+  btnModalProjects.addEventListener('click', () => {
   	createObstructor();
   	createModale();
   });
