@@ -1,27 +1,27 @@
   // Reste à finir : retour au form d'origine si clique sur annuler dans fenêtre windows choix photo
-  
+
+  //const close button in modal
   let closeButton;
-
+  // const category Select in modal
   let categorySelect;
-
+  // const image Input in modal
   let imageInput;
-
+  // const Delete works in modal
   let garbageIt;
-
+  // const Add Photo in modal
   let addPhotoModal;
-
+  // const parent container in modal
   const parentContainer = document.querySelector("main");
-
+  // const Title input in modal
   let inputTitle;
-
-  // messages for image size or error when selecting
+  // const messages for image size or error when selecting
   const infoFile = document.querySelector("#info-file");
 
+  const errorMessage = document.createElement('p');
 
   //  ---------------------------------------------------------
   //  | Management for the Modal fully dynamic                |
   //  ---------------------------------------------------------
-
   function createModale() {
   	let modale = document.createElement('div');
   	modale.classList.add('modale');
@@ -55,29 +55,48 @@
   	deleteFullGallery.classList.add("suppr-gallery");
   	deleteFullGallery.textContent = "Supprimer la galerie";
 
-    parentContainer.appendChild(modale);
+  	parentContainer.appendChild(modale);
+
+	errorMessage.style.display ="none";
+	errorMessage.innerText = "";
+	errorMessage.id = "info-file-is-not-ok";
+	optionsContainer.appendChild(errorMessage);
 
   	// Ajouter les éléments créés dans leur conteneur respectif
   	optionsContainer.appendChild(addButton);
   	optionsContainer.appendChild(deleteFullGallery);
 
   	// Ajouter les éléments au parent (peut être le body ou un autre conteneur)
-  	 // Vous devez sélectionner le conteneur parent approprié
-    modale.appendChild(titleGalleryModal);
-    modale.appendChild(closeButton);
+  	// Vous devez sélectionner le conteneur parent approprié
+  	modale.appendChild(closeButton);
+  	modale.appendChild(titleGalleryModal);
   	modale.appendChild(galleryContainer);
   	modale.appendChild(optionsContainer);
 
   	document.querySelector('button.close-modale').addEventListener('click', () => {
   		destroyObstructor();
   		destroyModale();
-  		window.location.replace('./index.html');
-
   	});
 
   	modale.querySelector('.btn-add-modal').addEventListener('click', () => {
   		destroyModale();
   		createAddPhotoModal();
+  	});
+
+  	deleteFullGallery.addEventListener('click', () => {
+  		const originalText = deleteFullGallery.textContent; // Sauvegarde du contenu d'origine
+  		deleteFullGallery.textContent = "";
+
+  		const messageContainer = document.createElement("p");
+  		messageContainer.textContent = "En cours de développement ⏳ !";
+  		messageContainer.classList.add('dev-message');
+  		deleteFullGallery.appendChild(messageContainer);
+
+  		setTimeout(() => {
+  			messageContainer.remove();
+  			deleteFullGallery.textContent = originalText;
+  		}, 3000);
+
   	});
 
   	manageProjectInModal();
@@ -138,6 +157,9 @@
   	}
   }
 
+  // ---------------------------------------------
+  // | Modal for adding a photo                  |
+  // ---------------------------------------------
   async function createAddPhotoModal() {
   	addPhotoModal = document.createElement('div');
   	addPhotoModal.classList.add('modale-add');
@@ -145,7 +167,7 @@
   	const titleAddPhoto = document.createElement('h2');
   	titleAddPhoto.classList.add('title-modal-projects');
   	titleAddPhoto.innerText = 'Ajout photo';
-    addPhotoModal.appendChild(titleAddPhoto);
+  	addPhotoModal.appendChild(titleAddPhoto);
 
   	const iconGoBack = document.createElement('i');
   	iconGoBack.classList.add('fa-solid', 'fa-arrow-left');
@@ -160,12 +182,12 @@
   	// Créer le conteneur principal <div class="container-add-photo">
   	const containerAddPhoto = document.createElement("div");
   	containerAddPhoto.classList.add("container-add-photo");
-    addPhotoModal.appendChild(containerAddPhoto);
+  	addPhotoModal.appendChild(containerAddPhoto);
 
   	// Créer le rectangle bleu <div class="bluerectangle">
   	const blueRectangle = document.createElement("div");
   	blueRectangle.classList.add("bluerectangle");
-    containerAddPhoto.appendChild(blueRectangle);
+  	containerAddPhoto.appendChild(blueRectangle);
 
   	// Créer l'élément <svg>
   	const svgNamespace = "http://www.w3.org/2000/svg";
@@ -175,8 +197,8 @@
     <path d="M7.00004 46C7.23404 46 7.47004 45.918 7.66004 45.751L23.973 31.389L34.275 41.69C34.666 42.081 35.298 42.081 35.689 41.69C36.08 41.299 36.08 40.667 35.689 40.276L30.882 35.469L40.063 25.415L51.324 35.738C51.731 36.111 52.364 36.083 52.737 35.676C53.11 35.269 53.083 34.636 52.675 34.263L40.675 23.263C40.479 23.084 40.218 22.995 39.955 23.001C39.69 23.013 39.44 23.13 39.261 23.326L29.467 34.053L24.724 29.31C24.35 28.937 23.752 28.918 23.356 29.266L6.33904 44.249C5.92404 44.614 5.88404 45.246 6.24904 45.661C6.44704 45.886 6.72304 46 7.00004 46Z" fill="#B9C5CC"/>
                     </svg>`;
   	const svgElement = new DOMParser().parseFromString(svgContent, "image/svg+xml").documentElement;
-    blueRectangle.appendChild(svgElement);
-    
+  	blueRectangle.appendChild(svgElement);
+
   	// Créer le bouton <button class="btn-add-photo">
   	const btnAddPhoto = document.createElement("button");
   	btnAddPhoto.classList.add("btn-add-photo");
@@ -203,37 +225,37 @@
   	infoImgParagraph.id = "info-file";
   	infoImgParagraph.textContent = "jpg, png : 4 mo max";
 
-    const formOptionPhoto = document.createElement('form');
-    formOptionPhoto.classList.add('container-option-photo');
-    formOptionPhoto.id = "uploadForm";
-    addPhotoModal.appendChild(formOptionPhoto);
+  	const formOptionPhoto = document.createElement('form');
+  	formOptionPhoto.classList.add('container-option-photo');
+  	formOptionPhoto.id = "uploadForm";
+  	addPhotoModal.appendChild(formOptionPhoto);
 
-    const labelTitle = document.createElement('label');
-    labelTitle.setAttribute("for", "title");
-    labelTitle.textContent= "Titre";
+  	const labelTitle = document.createElement('label');
+  	labelTitle.setAttribute("for", "title");
+  	labelTitle.textContent = "Titre";
 
-    const inputTitle = document.createElement('input');
-    inputTitle.classList.add('option-photo-input');
-    inputTitle.type = "text";
-    inputTitle.id = "title";
-    inputTitle.name = "title";
-    inputTitle.disabled = true;
+  	const inputTitle = document.createElement('input');
+  	inputTitle.classList.add('option-photo-input');
+  	inputTitle.type = "text";
+  	inputTitle.id = "title";
+  	inputTitle.name = "title";
+  	inputTitle.disabled = true;
 
-    formOptionPhoto.appendChild(labelTitle);
-    formOptionPhoto.appendChild(inputTitle);
+  	formOptionPhoto.appendChild(labelTitle);
+  	formOptionPhoto.appendChild(inputTitle);
 
-    const labelCategory = document.createElement('label');
-    labelCategory.setAttribute("for", "category");
-    labelCategory.textContent= "Catégorie";
+  	const labelCategory = document.createElement('label');
+  	labelCategory.setAttribute("for", "category");
+  	labelCategory.textContent = "Catégorie";
 
-    const selectCategory = document.createElement('select');
-    selectCategory.classList.add('option-photo-input');
-    selectCategory.id = "categorySelect";
-    selectCategory.name = "category";
-    selectCategory.disabled = true;
+  	const selectCategory = document.createElement('select');
+  	selectCategory.classList.add('option-photo-input');
+  	selectCategory.id = "categorySelect";
+  	selectCategory.name = "category";
+  	selectCategory.disabled = true;
 
-    formOptionPhoto.appendChild(labelCategory);
-    formOptionPhoto.appendChild(selectCategory);
+  	formOptionPhoto.appendChild(labelCategory);
+  	formOptionPhoto.appendChild(selectCategory);
 
   	// Ajouter les éléments créés à leurs parents respectifs
   	btnAddPhoto.appendChild(labelForImage);
@@ -242,30 +264,30 @@
   	blueRectangle.appendChild(btnAddPhoto);
   	blueRectangle.appendChild(infoImgParagraph);
 
-    // Créer l'élément <div> avec la classe "modal-option"
-  const modalOptionDiv = document.createElement("div");
-  modalOptionDiv.classList.add("modal-option");
+  	// Créer l'élément <div> avec la classe "modal-option"
+  	const modalOptionDiv = document.createElement("div");
+  	modalOptionDiv.classList.add("modal-option");
 
-    // Créer une attente pour un message d'erreur ou d'acceptation
-  const errorMessage = document.createElement('p');
-  errorMessage.style.display = "none";
-  errorMessage.id = "info-file", "info-file-is-ok";
+  	// Créer une attente pour un message d'erreur ou d'acceptation
+  	const errorMessage = document.createElement('p');
+	errorMessage.innerText="test de message d'erreur";
+  	errorMessage.style.display = "flex";
+  	errorMessage.id = "info-file", "info-file-is-ok";
+	modalOptionDiv.appendChild(errorMessage);
 
-  modalOptionDiv.appendChild(errorMessage);
+  	// Créer le bouton <button> avec les attributs spécifiés
+  	const submitButton = document.createElement("button");
+  	submitButton.id = "submitBtn";
+  	submitButton.type = "submit";
+  	submitButton.disabled = true; // Mettre le bouton en mode désactivé au début
+  	submitButton.textContent = "Valider";
 
-    // Créer le bouton <button> avec les attributs spécifiés
-  const submitButton = document.createElement("button");
-  submitButton.id = "submitBtn";
-  submitButton.type = "submit";
-  submitButton.disabled = true; // Mettre le bouton en mode désactivé au début
-  submitButton.textContent = "Valider";
+  	// Ajouter le bouton à l'élément <div>
+  	modalOptionDiv.appendChild(submitButton);
+  	addPhotoModal.appendChild(modalOptionDiv);
 
-  // Ajouter le bouton à l'élément <div>
-  modalOptionDiv.appendChild(submitButton);
-  addPhotoModal.appendChild(modalOptionDiv);
-  
   	parentContainer.appendChild(addPhotoModal);
-  	
+
   	goBack.appendChild(iconGoBack);
   	addPhotoModal.appendChild(goBack);
   	addPhotoModal.appendChild(closeModale);
@@ -275,7 +297,6 @@
   	addPhotoModal.querySelector('.close-modale').addEventListener('click', () => {
   		addPhotoModal.remove();
   		destroyObstructor();
-  		window.location.replace('./index.html');
   	});
 
   	// Management for the arrow-left to go back
@@ -297,26 +318,27 @@
   	categorySelect = document.getElementById('categorySelect');
   	imageInput = document.getElementById('image');
 
-
-  	// Ajouter les événements d'écoute aux éléments
   	inputTitle.addEventListener('input', checkFormFields);
-   	categorySelect.addEventListener('change', checkFormFields);
+  	categorySelect.addEventListener('change', checkFormFields);
   	imageInput.addEventListener('change', function(event) {
   		const selectedImage = imageInput.files[0];
   		checkImageSizeAndExtension(selectedImage);
   		checkFormFields();
   	});
 
+  	// ---------------------------------------------
+  	// | Check size and extension for image        |
+  	// ---------------------------------------------
   	function checkImageSizeAndExtension(selectedImage) {
   		if (selectedImage) {
   			const imageSizeLimit = 4 * 1024 * 1024; // 4 Mo en octets
-        const validFormats = ["image/png", "image/jpeg", "image/jpg"]; 
+  			const validFormats = ["image/png", "image/jpeg", "image/jpg"];
 
   			if (selectedImage.size > imageSizeLimit) {
   				infoImgParagraph.innerHTML = '<p class="info-img" id="info-file-is-not-ok">La taille de votre photo dépasse les 4 Mo autorisés.</p>';
   			} else if (!validFormats.includes(selectedImage.type)) {
-          infoImgParagraph.innerHTML = '<p class="info-img" id="info-file-is-not-ok">Format de fichier non pris en charge.</br> Veuillez sélectionner un fichier PNG, JPG ou JPEG.</p>';
-        } else {
+  				infoImgParagraph.innerHTML = '<p class="info-img" id="info-file-is-not-ok">Format de fichier non pris en charge.</br> Veuillez sélectionner un fichier PNG, JPG ou JPEG.</p>';
+  			} else {
   				// Image valide, réinitialiser le message d'alerte et charger l'image
   				blueRectangle.innerHTML = ''; // Réinitialiser le contenu du bluerectangle
   				loadImage(selectedImage);
@@ -330,25 +352,24 @@
   	//  ---------------------------------------------------------
   	//  |Transform the form into the choosen picture            |
   	//  ---------------------------------------------------------
-
   	function loadImage(event) {
-      selectedImage = imageInput.files[0];
+  		selectedImage = imageInput.files[0];
   		if (selectedImage) {
   			const imageURL = URL.createObjectURL(selectedImage);
-        console.log('Selected Image URL:', imageURL);
+  			console.log('Selected Image URL:', imageURL);
   			const imageElement = document.createElement('img');
   			imageElement.src = imageURL;
   			imageElement.id = 'imageStore';
   			// Add a class for image becoming clickable
   			imageElement.classList.add('clickable');
-        inputTitle.removeAttribute('disabled');
+  			inputTitle.removeAttribute('disabled');
   			const existingInput = document.querySelector('.bluerectangle input');
 
   			if (existingInput) {
   				existingInput.remove();
   			}
 
-        
+
 
   			const bluerectangleDiv = document.querySelector('.bluerectangle');
   			bluerectangleDiv.innerHTML = '';
@@ -419,10 +440,23 @@
   // ---------------------------------------------
   // | Delete works in the API                   |
   // ---------------------------------------------
-
   function deleteProject(garbageIcon) {
   	garbageIcon.addEventListener('click', async function() {
-  		console.log('vous avez cliqué sur trashicon');
+
+		const token = localStorage.getItem('token');
+
+		if (!token) {
+		  errorMessage.style.display = "flex";
+		  errorMessage.id = "info-file-is-not-ok";
+		  errorMessage.innerHTML = "Erreur d'authentification, vous allez être redirigés vers la page de connexion";
+
+		  setTimeout(() => {
+			errorMessage.style.display = 'none';
+			window.location.replace(
+				"./login.html",)
+
+		}, 3000);
+		}
   		const projectId = garbageIcon.parentElement.id;
   		try {
   			// Appeler l'API de suppression avec le token d'authentification
@@ -449,14 +483,19 @@
   	});
   }
 
-
+  // ---------------------------------------------
+  // | Close the AddPhotoModal                   |
+  // ---------------------------------------------
   function destroyAddPhotoModal() {
   	const modale = document.querySelector('div.modale');
   	modale.remove();
   }
 
+  // ---------------------------------------------
+  // | Check if fields in form are ok            |
+  // ---------------------------------------------
   function checkFormFields() {
-    inputTitle = document.getElementById('title');
+  	inputTitle = document.getElementById('title');
   	categorySelect = document.getElementById('categorySelect');
   	imageInput = document.getElementById('image');
 
@@ -500,30 +539,13 @@
 
   let selectedImage;
 
-  /**** Reset "error message" ****/
-  function errorMessageRemove() {
-  	errorMessage.style.display = "none";
-  	errorMessage.innerHTML = " ";
-  }
-
   // ---------------------------------------------
-  // | Links for all the modify btn               |
+  // | Links to enter in modal                   |
   // ---------------------------------------------
-
   document.querySelector('#btn-modal-projects').addEventListener('click', () => {
   	createObstructor();
   	createModale();
   });
-
-  document.querySelector('#btn-modal-profil').addEventListener('click', () => {
-  	const message = "En cours de développement ⏳ !";
-  	alert(message);
-  });
-
-  /*modale.querySelector('#suppr-gallery').addEventListener('click', () => {
-    const message = "En cours de développement ⏳ !";
-    alert(message);
-  });*/
 
   // ---------------------------------------------
   // | Send works to the API                     |
@@ -545,27 +567,32 @@
   		})
   		.then(function(response) {
   			if (response.status === 201) {
-  				//add a new work in gallery();
-  				// add a new work in modal ();
   				errorMessage.style.display = 'flex';
-  				errorMessage.innerHTML = `Votre projet ${title.value} est ajouté !`;
+  				errorMessage.innerHTML = `Votre projet ${inputTitle.value} est ajouté !`;
   				categorySelect.value = "";
   				title.value = "";
   				submitBtn.disabled = true;
+
+  				setTimeout(() => {
+  					errorMessage.style.display = 'none';
+					  console.log('test');
+  				}, 3000);
+
   			} else if (response.status === 400) {
   				// response 400, not all fields are filled in
   				submitBtn.disabled = true;
   				errorMessage.style.display = "flex";
   				errorMessage.innerHTML = "Veuillez compléter tous les champs.";
-  				category.value = " ";
-  				title.value = " ";
+  				category.value = "";
+  				title.value = "";
   			} else {
   				// other answers
   				submitBtn.disabled = true;
   				errorMessage.style.display = "flex";
   				errorMessage.innerHTML = "Problème de connexion avec l'API, contacter votre administrateur.";
   			}
-  			return response.json(); // Ajoutez cette ligne pour obtenir les données JSON
+  			return response.json();
+
   		})
   		.then(function(data) {
   			// Utilisez les données JSON ici si nécessaire

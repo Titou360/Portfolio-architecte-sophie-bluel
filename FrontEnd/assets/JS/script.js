@@ -91,40 +91,62 @@ async function getCategories () {
   //  ---------------------------------------------------------
   //  | Management for the "Portfolio" section                |
   //  ---------------------------------------------------------
-    const portfolio = document.querySelector('#portfolio');
-    const htmlProjects = document.createElement('div');
-        htmlProjects.innerHTML = `
-    <div class="row">
-        <h2 id="projects">
-            Mes Projets
-        </h2>
-
-        <button id="btn-modal-projects" class="btn-modify">
-            modifier
-        </button>
-    </div>
-
-    <div class="filters">
-    </div>
-
-    <div class="gallery">
-    </div>
-        `;
-    portfolio.appendChild(htmlProjects);
+  const portfolio = document.querySelector('#portfolio');
+  const htmlProjects = document.createElement('div');
+  htmlProjects.classList.add("container-portfolio");
+  portfolio.appendChild(htmlProjects);
+  
+  const titleProjects = document.createElement('div');
+  titleProjects.classList.add("row");
+  htmlProjects.appendChild(titleProjects);
+  
+  const myFilters = document.createElement('div');
+  myFilters.classList.add('filters');
+  htmlProjects.appendChild(myFilters);
+  
+  const myGallery = document.createElement('div');
+  myGallery.classList.add('gallery');
+  htmlProjects.appendChild(myGallery);
+  
+  const myProjects = document.createElement('h2');
+  myProjects.id ="projects";
+  myProjects.textContent = "Mes Projets";
+  titleProjects.appendChild(myProjects);
+  
+  const btnModalProjects = document.createElement('button');
+  btnModalProjects.id ="btn-modal-projects";
+  btnModalProjects.classList.add('btn-modify');
+  btnModalProjects.textContent = "modifier";
+  titleProjects.appendChild(btnModalProjects);
+  
 
   //  ---------------------------------------------------------
   //  | Management of the "modify" button => Online / Offline |
   //  ---------------------------------------------------------
 
-  const modifyButtonProjects = document.getElementById('btn-modal-projects');
   const modifyButtonProfil = document.getElementById('btn-modal-profil');
     if (token) {
-      modifyButtonProjects.style.display = 'flex';
+      btnModalProjects.style.display = 'flex';
       modifyButtonProfil.style.display = 'flex';
     } else {
-      modifyButtonProjects.style.display = 'none';
+      btnModalProjects.style.display = 'none';
       modifyButtonProfil.style.display = 'none';
     }
+
+    modifyButtonProfil.addEventListener('click', () => {
+      const orginalBtnText = modifyButtonProfil.textContent;
+      modifyButtonProfil.textContent = "";
+
+      const messageContainer = document.createElement("p");
+      messageContainer.textContent = "En cours de développement ⏳ !";
+      messageContainer.classList.add('dev-message');
+      modifyButtonProfil.appendChild(messageContainer);
+
+      setTimeout( () => {
+        messageContainer.remove();
+        modifyButtonProfil.textContent = orginalBtnText;
+      }, 3000);
+    });
 
   //  ---------------------------------------------------------
   //  | Management for the filters section                    |

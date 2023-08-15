@@ -837,3 +837,14 @@ select[container-option]:active {
 	text-align: center;
   }
 
+.dev-message {
+	color: red;
+	font-size: 14px;
+	font-family: "work sans", sans-serif;
+	text-align: center;
+	background-color: white;
+	border: 1px solid red;
+	border-radius: 5px;
+	padding: 5px 30px;
+}
+
