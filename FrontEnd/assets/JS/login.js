@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const loginLink = document.querySelector('#nav-login');
 
   // Vérifier si le token est présent dans le localStorage
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
   if (token) {
     // Changer le texte en "logout" si le token est présent
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const token = data.token;
 
       // Stocker le token dans le localStorage
-      localStorage.setItem('token', token);
+      sessionStorage.setItem('token', token);
       console.log('Token:', token);
 
       // Changer le texte du lien en "logout" après la connexion réussie
@@ -57,10 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Gérer la déconnexion lorsque l'utilisateur clique sur "logout"
   loginLink.addEventListener('click', function() {
     if (token) {
-      // Supprimer le token du localStorage
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
     }
-    // Rediriger vers la page de login
-    window.location.href = 'login.html';
   });
 });

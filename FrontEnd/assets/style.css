@@ -818,16 +818,16 @@ select[container-option]:active {
 	font-family: "work sans", sans-serif;
   }
 
-#info-file-is-ok {
-	color: #444444;
-	background: none;
+.info-file-is-ok {
+	background-color: #1D6154;
+	color: #FFF;
+	padding: 10px 10px;
 	font-size: 14px;
 	font-weight: 400;
-	padding: 0;
 	border-radius: 0;
   }
 
-#info-file-is-not-ok {
+.info-file-is-not-ok {
 	color: crimson;
 	font-size: 14px;
 	font-weight: 700;

@@ -16,7 +16,7 @@
   //  ---------------------------------------------------------
   //  | Management for the token                              |
   //  ---------------------------------------------------------
-    let token = localStorage.getItem('token');
+    let token = sessionStorage.getItem('token');
        console.log('Token:', token);
 
   //  ---------------------------------------------------------
@@ -37,8 +37,7 @@
       if (token === null) {
           window.location.replace('./login.html');
       } else {
-          sessionStorage.clear();
-          localStorage.removeItem('token');
+          sessionStorage.removeItem('token');
           loginLogout.textContent = 'login';
       }
   }
@@ -80,7 +79,7 @@ async function getCategories () {
             throw new Error("Erreur lors de la récupération des données");
         }
        const data = await response.json();
-       return data;
+       //return data;
     }  catch (error) {
         console.error(error);
         throw error;
@@ -212,14 +211,16 @@ async function getCategories () {
 
     function genererFigure(projet) {
     let figureElement = document.createElement('figure');
+    let idFigure = projet.id;
+    figureElement.id = idFigure;
     let categoryClass = 'filter-' + encodeURIComponent(projet.category.name.toLowerCase().replace(' ', '-'));
         figureElement.classList.add(categoryClass);
     let imgElement = document.createElement('img');
         imgElement.src = projet.imageUrl;
         imgElement.alt = projet.title;
+        figureElement.appendChild(imgElement);
     let figcaptionElement = document.createElement('figcaption');
         figcaptionElement.textContent = projet.title;
-        figureElement.appendChild(imgElement);
         figureElement.appendChild(figcaptionElement);
     let containerElement = document.querySelector('.gallery');
         containerElement.appendChild(figureElement);
@@ -288,10 +289,10 @@ async function getCategories () {
 
   	parentContainer.appendChild(modale);
 
-	errorMessage.style.display ="none";
-	errorMessage.innerText = "";
-	errorMessage.id = "info-file-is-not-ok";
-	optionsContainer.appendChild(errorMessage);
+	  errorMessage.style.display ="none";
+	  errorMessage.innerText = "";
+	  errorMessage.classList.add("info-file-is-not-ok");
+	  optionsContainer.appendChild(errorMessage);
 
   	// Ajouter les éléments créés dans leur conteneur respectif
   	optionsContainer.appendChild(addButton);
@@ -336,7 +337,6 @@ async function getCategories () {
   function createObstructor() {
   	const obstructor = document.createElement('div');
   	obstructor.classList.add('obstructor');
-  	parentContainer.style.position = ('fixed');
   	parentContainer.appendChild(obstructor);
   }
 
@@ -378,9 +378,9 @@ async function getCategories () {
   			moveIt.className = "moveit";
   			imgContainer.appendChild(moveIt);
 
-  			galleryModal.appendChild(imgContainer);
-
   			deleteProject(garbageIt);
+
+        galleryModal.appendChild(imgContainer);
   		});
 
   	} catch (error) {
@@ -501,10 +501,10 @@ async function getCategories () {
 
   	// Créer une attente pour un message d'erreur ou d'acceptation
   	const errorMessage = document.createElement('p');
-	errorMessage.innerText="test de message d'erreur";
+	  errorMessage.innerText="";
   	errorMessage.style.display = "none";
-  	errorMessage.id = "info-file", "info-file-is-ok";
-	modalOptionDiv.appendChild(errorMessage);
+  	errorMessage.id = "info-file";
+	  modalOptionDiv.appendChild(errorMessage);
 
   	// Créer le bouton <button> avec les attributs spécifiés
   	const submitButton = document.createElement("button");
@@ -525,7 +525,7 @@ async function getCategories () {
 
 
   	// Management for the "X" to close modal
-  	addPhotoModal.querySelector('.close-modale').addEventListener('click', () => {
+  	document.querySelector('.close-modale').addEventListener('click', () => {
   		addPhotoModal.remove();
   		destroyObstructor();
   	});
@@ -537,15 +537,10 @@ async function getCategories () {
   		createModale();
   	});
 
-	  submitButton.addEventListener('click', function(event) {
-		sendWorksToAPI();
-		createAddPhotoModal();
-
-    setTimeout(() => {
+	  submitButton.addEventListener('click', function() {
       sendWorksToAPI();
-      createAddPhotoModal();
-    }, 3000);
-	});
+    });
+
 
 
 
@@ -673,13 +668,19 @@ async function getCategories () {
   	}
   }
 
+  function destroyAddPhotoModal() {
+  	const addPhotoModal = document.querySelector('div.modale-add');
+  	addPhotoModal.remove();
+    destroyObstructor();
+  }
+
   // ---------------------------------------------
   // | Delete works in the API                   |
   // ---------------------------------------------
   function deleteProject(garbageIcon) {
   	garbageIcon.addEventListener('click', async function() {
 
-		const token = localStorage.getItem('token');
+		const token = sessionStorage.getItem('token');
 
 		if (!token) {
 		  errorMessage.style.display = "flex";
@@ -707,12 +708,16 @@ async function getCategories () {
   				throw new Error('Une erreur s\'est produite lors de la suppression du projet');
   			}
 
-  			// Si la suppression réussit, vous pouvez peut-être mettre à jour la galerie ou effectuer d'autres actions nécessaires.
-  			console.log('Projet supprimé avec succès');
-
-  			// Supprimer l'élément d'image de la galerie
+ 			// Supprimer l'élément d'image de la galerie
   			const imageContainer = garbageIcon.parentElement;
   			imageContainer.remove();
+
+              // Supprimer l'élément d'image de la modal
+      const modalImageContainer = document.getElementById(projectId);
+      if (modalImageContainer) {
+        modalImageContainer.remove();
+      }
+
   		} catch (error) {
   			console.error('Une erreur s\'est produite lors de la suppression du projet:', error);
   		}
@@ -723,8 +728,9 @@ async function getCategories () {
   // | Close the AddPhotoModal                   |
   // ---------------------------------------------
   function destroyAddPhotoModal() {
-  	const modale = document.querySelector('div.modale');
-  	modale.remove();
+  	const AddPhotoModal = document.querySelector('div.modale-add');
+  	AddPhotoModal.remove();
+    destroyObstructor();
   }
 
   // ---------------------------------------------
@@ -800,15 +806,17 @@ async function getCategories () {
   		})
   		.then(function(response) {
   			if (response.status === 201) {
+
   				errorMessage.style.display = 'flex';
-  				errorMessage.innerHTML = `Votre projet ${inputTitle.value} est ajouté !`;
+  				errorMessage.innerHTML = `Votre projet est ajouté !`;
+          errorMessage.classList.add('info-file-is-ok');
   				categorySelect.value = "";
   				title.value = "";
   				submitBtn.disabled = true;
 
   				setTimeout(() => {
   					errorMessage.style.display = 'none';
-					  console.log('test');
+					  destroyAddPhotoModal();
   				}, 3000);
 
   			} else if (response.status === 400) {
@@ -834,3 +842,6 @@ async function getCategories () {
   			console.error(error);
   		});
   }
+
+
+  
