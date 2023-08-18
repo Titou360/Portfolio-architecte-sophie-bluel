@@ -539,10 +539,10 @@ async function getCategories () {
 
 	  submitButton.addEventListener('click', function() {
       sendWorksToAPI();
+	  updateGallery();
+	  destroyAddPhotoModal();
+	  
     });
-
-
-
 
   	//  ---------------------------------------------------------
   	//  | Add a project in Gallery & database                   |
@@ -807,18 +807,6 @@ async function getCategories () {
   		.then(function(response) {
   			if (response.status === 201) {
 
-  				errorMessage.style.display = 'flex';
-  				errorMessage.innerHTML = `Votre projet est ajouté !`;
-          errorMessage.classList.add('info-file-is-ok');
-  				categorySelect.value = "";
-  				title.value = "";
-  				submitBtn.disabled = true;
-
-  				setTimeout(() => {
-  					errorMessage.style.display = 'none';
-					  destroyAddPhotoModal();
-  				}, 3000);
-
   			} else if (response.status === 400) {
   				// response 400, not all fields are filled in
   				submitBtn.disabled = true;
@@ -835,13 +823,80 @@ async function getCategories () {
   			return response.json();
 
   		})
-  		.then(function(data) {
-  			// Utilisez les données JSON ici si nécessaire
-  		})
   		.catch(function(error) {
   			console.error(error);
   		});
   }
 
+ 
+ 
+  function updateGallery() {
+    // Effacez la galerie existante
+    const galleryContainer = document.querySelector('.gallery');
+    galleryContainer.innerHTML = "";
 
-  
+    // Récupérez à nouveau les projets depuis l'API
+    getWorks()
+    .then(data => {
+        data.forEach(function(projet) {
+            genererFigure(projet);
+        });
+        // Mettez à jour les catégories et les filtres si nécessaire
+        updateCategoriesAndFilters(data);
+    })
+    .catch(error => {
+        console.error("Erreur lors de la mise à jour de la galerie :", error);
+    });
+}
+
+function updateCategoriesAndFilters(data) {
+    // Mettez à jour les catégories et les filtres si nécessaire
+    const categories = new Set();
+    categories.add('Tous');
+    data.forEach(projet => {
+        categories.add(projet.category.name);
+    });
+
+    const filtersContainer = document.querySelector('.filters');
+    const allFigures = document.querySelectorAll('.gallery figure');
+    const filterButtons = [];
+
+    // Mettez à jour les catégories dans les filtres
+    categories.forEach(category => {
+        const button = document.createElement('button');
+        const buttonClass = 'btn-filter';
+        button.classList.add(buttonClass);
+        button.textContent = category;
+        filtersContainer.appendChild(button);
+        filterButtons.push(button);
+
+        if (category === 'Tous') {
+            button.classList.add('filter-tous');
+        } else {
+            const categoryClass = 'filter-' + encodeURIComponent(category.toLowerCase().replace(' ', '-'));
+            button.classList.add(categoryClass);
+        }
+    });
+
+    // Mettez à jour les filtres sur les figures
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            filterButtons.forEach(btn => {
+                btn.classList.remove('data-active');
+            });
+
+            button.classList.add('data-active');
+            const categoryClass = button.classList[1];
+
+            allFigures.forEach(figure => {
+                const figureCategories = Array.from(figure.classList).filter(className => className.startsWith('filter-'));
+                const shouldDisplay = categoryClass === 'filter-tous' || figureCategories.includes(categoryClass);
+                figure.style.display = shouldDisplay ? 'block' : 'none';
+            });
+        });
+    });
+
+    if (token) {
+        filtersContainer.style.display = 'none';
+    }
+}
