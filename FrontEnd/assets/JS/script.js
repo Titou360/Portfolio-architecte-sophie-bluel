@@ -541,7 +541,6 @@ async function getCategories () {
       sendWorksToAPI();
 	  updateGallery();
 	  destroyAddPhotoModal();
-	  
     });
 
   	//  ---------------------------------------------------------
@@ -668,11 +667,6 @@ async function getCategories () {
   	}
   }
 
-  function destroyAddPhotoModal() {
-  	const addPhotoModal = document.querySelector('div.modale-add');
-  	addPhotoModal.remove();
-    destroyObstructor();
-  }
 
   // ---------------------------------------------
   // | Delete works in the API                   |
@@ -728,10 +722,10 @@ async function getCategories () {
   // | Close the AddPhotoModal                   |
   // ---------------------------------------------
   function destroyAddPhotoModal() {
-  	const AddPhotoModal = document.querySelector('div.modale-add');
-  	AddPhotoModal.remove();
-    destroyObstructor();
-  }
+	const addPhotoModal = document.querySelector('div.modale-add');
+	addPhotoModal.remove();
+  destroyObstructor();
+}
 
   // ---------------------------------------------
   // | Check if fields in form are ok            |
