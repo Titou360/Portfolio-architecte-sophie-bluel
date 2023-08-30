@@ -525,7 +525,7 @@
   	submitButton.addEventListener('click', async function() {
   		await sendWorksToAPI();
   		await updateGallery();
-  		//await destroyAddPhotoModal();
+  		await destroyAddPhotoModal();
   	});
 
   	//  ---------------------------------------------------------
