@@ -229,7 +229,7 @@ footer nav ul {
 
 a {
 	text-decoration: none;
-	cursor: text;
+	cursor: pointer;
 }
 
 a:link {
@@ -374,6 +374,11 @@ label[for="email"] {
 	line-height: normal;
 	padding: 11px;
 	border-radius : 60px; 
+}
+
+.data-active {
+	color: white;
+	background: #1D6154;
 }
 
 .btn-modify, .btn-edit-modal {

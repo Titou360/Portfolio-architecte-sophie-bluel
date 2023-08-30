@@ -810,8 +810,6 @@
   		});
   }
 
-
-
   function updateGallery() {
   	// Effacez la galerie existante
   	const galleryContainer = document.querySelector('.gallery');
