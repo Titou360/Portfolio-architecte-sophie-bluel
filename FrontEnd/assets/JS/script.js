@@ -64,7 +64,7 @@
   		if (!response.ok) {
   			throw new Error("Erreur lors de la récupération des données");
   		}
-  		const data = await response.json();
+  		const data = response.json();
   		return data;
   	} catch (error) {
   		console.error(error);
@@ -176,6 +176,7 @@
 
   			if (category === 'Tous') {
   				button.classList.add('filter-tous');
+				button.classList.add('data-active');
   			} else {
   				const categoryClass = 'filter-' + encodeURIComponent(category.toLowerCase().replace(' ', '-'));
   				button.classList.add(categoryClass);
