@@ -522,10 +522,10 @@
   	});
 
   	// Management for the submitButton
-  	submitButton.addEventListener('click', function() {
-  		sendWorksToAPI();
-  		updateGallery();
-  		destroyAddPhotoModal();
+  	submitButton.addEventListener('click', async function() {
+  		await sendWorksToAPI();
+  		await updateGallery();
+  		//await destroyAddPhotoModal();
   	});
 
   	//  ---------------------------------------------------------
